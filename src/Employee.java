@@ -1,13 +1,12 @@
-
-	import javax.xml.bind.annotation.XmlAttribute;  
-	import javax.xml.bind.annotation.XmlElement;  
-	import javax.xml.bind.annotation.XmlRootElement;  
+import javax.xml.bind.annotation.XmlAttribute;  
+import javax.xml.bind.annotation.XmlElement;  
+import javax.xml.bind.annotation.XmlRootElement;  
 	  
-	@XmlRootElement  
-	public class Employee {  
-	    private int id;  
-	    private String name;  
-	    private float salary;  
+@XmlRootElement  
+public class Employee {  
+    private int id;  
+    private String name;  
+    private float salary;  
 	  
 	public Employee() {}  
 	public Employee(int id, String name, float salary) {  
@@ -37,4 +36,4 @@
 	public void setSalary(float salary) {  
 	    this.salary = salary;  
 	}  
-	}  
+}  
