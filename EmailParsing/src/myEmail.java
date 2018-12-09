@@ -3,8 +3,7 @@ public class myEmail {
 	
 	String email;
 
-	// constructor
-	Email(String email) {
+	myEmail(String email) {
 		this.email = email;
 	}
 
