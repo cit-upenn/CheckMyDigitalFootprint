@@ -1,47 +1,33 @@
 package checkmydigitalfootprint;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import java.util.prefs.Preferences;
 
 import checkmydigitalfootprint.model.Website;
+import checkmydigitalfootprint.util.GmailApi;
+import checkmydigitalfootprint.view.FileUploadController;
 import checkmydigitalfootprint.view.RootLayoutController;
 import checkmydigitalfootprint.view.WebsiteOverviewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.GmailScopes;
-import com.google.api.services.gmail.model.Label;
-import com.google.api.services.gmail.model.ListLabelsResponse;
+
 
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
+	private Stage fileUploadStage;
 	
 	private ObservableList<Website> websiteData = FXCollections.observableArrayList();
 	
@@ -66,6 +52,9 @@ public class MainApp extends Application {
 		System.out.println("Starting..");
 		initRootLayout();
 		showWebsiteOverview();
+		showLoadCredentialsWindow();
+//		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+//		prefs.remove("credentialsFilePath");
 		
 	}
 	
@@ -85,6 +74,13 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		File file = getCredentialsFilePath();
+		if (file != null) {
+			loadCredentialsFromFile(file);
+		} else {
+			showLoadCredentialsWindow();
+		}
 	}
 	
 	public void showWebsiteOverview() {
@@ -92,8 +88,8 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/WebsiteOverview.fxml"));
 			AnchorPane websiteOverview = (AnchorPane) loader.load();
-			
 			rootLayout.setCenter(websiteOverview);
+			
 			
 			WebsiteOverviewController controller = loader.getController();
 			controller.setMainApp(this);
@@ -102,31 +98,60 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public void loadCredentialsFromFile(File file) {
-		
+	public void showLoadCredentialsWindow() {
 		try {
-			FileReader reader = new FileReader(file);
-			JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-			JSONParser jsonParser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/FileUpload.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
 			
-			System.out.println(file.getCanonicalPath());
+			fileUploadStage = new Stage();
+			fileUploadStage.initModality(Modality.WINDOW_MODAL);
+			fileUploadStage.initOwner(primaryStage);
 			
-			InputStream in = this.getClass().getResourceAsStream(file.getAbsolutePath());
-			new InputStreamReader(in);
-//			GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-//			System.out.println(clientSecrets);
+			Scene scene = new Scene(page);
+			fileUploadStage.setScene(scene);
+			
+			FileUploadController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.setOnDragOver(page);
+			controller.setOnDragEntered(page);
+			controller.setOnDragDropped(page);
+			controller.setOnDragExited(page);
+			fileUploadStage.showAndWait();
 			
 			
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setCredentialsFilePath(File file) {
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		if (file != null) {
+			prefs.put("credentialsFilePath", file.getPath());
+		} else {
+			prefs.remove("credentialsFilePath");
+		}
+	}
+	
+	public File getCredentialsFilePath() {
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		String filePath = prefs.get("credentialsFilePath",  null);
+		if (filePath != null) {
+			return new File(filePath);
+		} else {
+			return null;
+		}
+	}
+	
+	public void loadCredentialsFromFile(File file) {
+		GmailApi gmailApi = new GmailApi(file);
 		
+		setCredentialsFilePath(file);
+		if (fileUploadStage != null) {
+			fileUploadStage = (Stage) fileUploadStage.getScene().getWindow();
+			fileUploadStage.close();
+		}
 	}
 	
 	public Stage getPrimaryStage() {
