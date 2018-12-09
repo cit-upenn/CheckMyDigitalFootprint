@@ -1,6 +1,7 @@
 package checkmydigitalfootprint.view;
 
 import java.io.File;
+import java.util.prefs.Preferences;
 
 import checkmydigitalfootprint.MainApp;
 import javafx.fxml.FXML;
@@ -15,8 +16,8 @@ public class RootLayoutController {
 	}
 	
 	@FXML
-	private void handleAddCredentials() {
-
+	public void handleAddCredentials() {
+		
 		FileChooser fileChooser = new FileChooser();
 		
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
