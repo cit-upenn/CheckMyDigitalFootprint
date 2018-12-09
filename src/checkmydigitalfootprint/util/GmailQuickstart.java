@@ -78,13 +78,17 @@ public class GmailQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
+        
+        //create array of emails to hold emails
+        ArrayList<Email> emails = new ArrayList<Email>();
+        
         // Print the labels in the user's account.
         String user = "me";
         ListLabelsResponse listResponse = service.users().labels().list(user).execute();
         List<Label> labels = listResponse.getLabels();
         
         
-        ArrayList<String> emails = new ArrayList<String>();
+        
         
         ListMessagesResponse idList = service.users().messages().list(user).setQ("").execute();
         
@@ -107,17 +111,18 @@ public class GmailQuickstart {
 //        	emails.add(jsonIds.getJSONObject(i).getString("id"));
         	tracker = i;
         	System.out.println(jsonIds.getJSONObject(i).getString("id"));
-        	emails.add(service.users().messages().get("me", jsonIds.getJSONObject(i).getString("id")).execute().toString());
+        	Email email = new Email(service.users().messages().get("me", jsonIds.getJSONObject(i).getString("id")).execute().toString());
+        	emails.add(email);
         }
         long finish = System.currentTimeMillis();
         System.out.println(finish-start);
         System.out.println(emails.size());
         
         int counter = 0;
-//        while (counter<ids.size()) {
-//        	System.out.println(ids.get(counter));
-//        	counter++;
-//        }
+        while (counter<emails.size()) {
+        	System.out.println(emails.get(counter).getEmail());
+        	counter++;
+        }
 //        wr.write(tracker +"");
 //        wr.close();
 //        System.out.println(service.users().messages().get("me", jsonIds.getJSONObject(37).getString("id")).execute());
