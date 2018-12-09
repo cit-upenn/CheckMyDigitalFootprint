@@ -2,3 +2,7 @@
 .DS_store
 .DS_Store
 
+# Don't track folders
+parser/
+file_format_tester/
+
