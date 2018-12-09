@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/Users/Joseph/Downloads/jfoenix-9.0.6.jar"/>
 	<classpathentry kind="lib" path="/Users/Joseph/Downloads/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="/Users/Joseph/Downloads/google-api-java-client/libs/commons-logging-1.2.jar"/>
@@ -71,5 +74,8 @@
 	<classpathentry kind="lib" path="/Users/Joseph/Downloads/gmail/libs/jetty-util-6.1.26.jar"/>
 	<classpathentry kind="lib" path="/Users/Joseph/Downloads/gmail/libs/jsr305-3.0.2.jar"/>
 	<classpathentry kind="lib" path="/Users/Joseph/Downloads/gmail/libs/transaction-api-1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/Joseph/Downloads/servlet-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX11"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX 11"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
