@@ -1,1 +1,4 @@
+# Don't track files
 .DS_store
+.DS_Store
+
