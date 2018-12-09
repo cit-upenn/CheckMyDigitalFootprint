@@ -28,6 +28,7 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private Stage fileUploadStage;
+	private GmailApi gmailApi;
 	
 	private ObservableList<Website> websiteData = FXCollections.observableArrayList();
 	
@@ -141,13 +142,21 @@ public class MainApp extends Application {
 	}
 	
 	public void loadCredentialsFromFile(File file) {
-		GmailApi gmailApi = new GmailApi(file);
+		gmailApi = new GmailApi(file);
 		
 		setCredentialsFilePath(file);
 		if (fileUploadStage != null) {
 			fileUploadStage = (Stage) fileUploadStage.getScene().getWindow();
 			fileUploadStage.close();
 		}
+	}
+	
+	public void loadWebsiteDataFromFile(File file) {
+		
+	}
+	
+	public void handleScanInbox() {
+		
 	}
 	
 	public Stage getPrimaryStage() {

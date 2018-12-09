@@ -16,7 +16,22 @@ public class RootLayoutController {
 	}
 	
 	@FXML
-	public void handleAddCredentials() {
+	private void handleOpen() {
+		FileChooser fileChooser = new FileChooser();
+
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files(*.xml)", "*.xml");
+		
+		fileChooser.getExtensionFilters().add(extFilter);
+		
+		File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+		
+		if (file != null) {
+			mainApp.loadWebsiteDataFromFile(file);
+		}
+	}
+	
+	@FXML
+	private void handleAddCredentials() {
 		
 		FileChooser fileChooser = new FileChooser();
 		
