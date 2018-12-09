@@ -13,7 +13,7 @@
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open" />
                   <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save As" />
                   <MenuItem mnemonicParsing="false" onAction="#handleAddCredentials" text="Add Credentials" />
             </items>
           </Menu>

@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import checkmydigitalfootprint.model.Website;
+import checkmydigitalfootprint.model.WebsiteListWrapper;
 import checkmydigitalfootprint.util.GmailApi;
 import checkmydigitalfootprint.view.FileUploadController;
 import checkmydigitalfootprint.view.RootLayoutController;
@@ -15,6 +20,8 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -33,13 +40,10 @@ public class MainApp extends Application {
 	private ObservableList<Website> websiteData = FXCollections.observableArrayList();
 	
 	public MainApp() {
-		Website linkedin = new Website("www.linkedin.com", true);
-		linkedin.setKeep(true);
-		websiteData.add(new Website("www.facebook.com", true));
-		websiteData.add(new Website("www.google.com", true));
-		websiteData.add(new Website("www.airbnb.com", true));
-		websiteData.add(linkedin);
-		websiteData.add(new Website("www.spotify.com", true));
+		websiteData.add(new Website("www.linkedin.com", true));
+		websiteData.add(new Website("www.face.com", true));
+		websiteData.add(new Website("www.reddit.com", true));
+
 	}
 	
 	public ObservableList<Website> getWebsiteData() {
@@ -153,10 +157,51 @@ public class MainApp extends Application {
 	
 	public void loadWebsiteDataFromFile(File file) {
 		
+		try {
+			JAXBContext context = JAXBContext.newInstance(WebsiteListWrapper.class);
+			
+			Unmarshaller um = context.createUnmarshaller();
+			
+			WebsiteListWrapper wrapper = (WebsiteListWrapper) um.unmarshal(file);
+			System.out.println(um.unmarshal(file));
+			websiteData.clear();
+			websiteData.addAll(wrapper.getWebsites());
+			
+			setWebsiteFilePath(file);
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Could not load data");
+			alert.setContentText("Could not load data from file:\n" + file.getPath());
+			
+			alert.showAndWait();
+		}
 	}
 	
 	public void saveWebsiteDataToFile(File file) {
-		setWebsiteFilePath(file);
+		
+		try {
+			
+			JAXBContext context = JAXBContext.newInstance(WebsiteListWrapper.class);
+			
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			
+			WebsiteListWrapper wrapper = new WebsiteListWrapper();
+			wrapper.setPersons(websiteData);
+			
+			m.marshal(wrapper,  file);
+			
+			setWebsiteFilePath(file);
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Could not save data");
+			alert.setContentText("Could not save data to file:\n" + file.getPath());
+			
+			alert.showAndWait();
+		}
+		
 	}
 	
 	public void setWebsiteFilePath(File file) {

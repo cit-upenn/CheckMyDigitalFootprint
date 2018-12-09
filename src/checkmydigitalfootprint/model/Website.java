@@ -12,12 +12,17 @@ public class Website {
 	private final BooleanProperty keep;
 	private final BooleanProperty delete;
 	
+	public Website() {
+		this(null, false);
+	}
+	
 	public Website(String website, boolean accountExists) {
 		this.website = new SimpleStringProperty(website);
 		this.accountExists = new SimpleBooleanProperty(accountExists);
 		this.keep = new SimpleBooleanProperty(false);
 		this.delete = new SimpleBooleanProperty(false);
 	}
+	
 	
 	public StringProperty websiteProperty() {
 		return website;
@@ -62,7 +67,10 @@ public class Website {
 	
 	public void setKeep(boolean bool) {
 		keep.set(bool);
-		delete.set(!bool);
+	}
+	
+	public void setDelete(boolean bool) {
+		delete.set(bool);
 	}
 	
 }
