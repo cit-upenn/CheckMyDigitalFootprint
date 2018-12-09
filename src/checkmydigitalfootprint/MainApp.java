@@ -52,7 +52,7 @@ public class MainApp extends Application {
 		System.out.println("Starting..");
 		initRootLayout();
 		showWebsiteOverview();
-		showLoadCredentialsWindow();
+//		showLoadCredentialsWindow();
 //		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 //		prefs.remove("credentialsFilePath");
 		
