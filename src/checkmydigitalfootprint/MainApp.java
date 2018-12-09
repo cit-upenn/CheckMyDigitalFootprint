@@ -155,6 +155,19 @@ public class MainApp extends Application {
 		
 	}
 	
+	public void saveWebsiteDataToFile(File file) {
+		setWebsiteFilePath(file);
+	}
+	
+	public void setWebsiteFilePath(File file) {
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		if (file != null) {
+			prefs.put("websiteFilePath", file.getPath());
+		} else {
+			prefs.remove("websiteFilePath");
+		}
+	}
+	
 	public void handleScanInbox() {
 		
 	}

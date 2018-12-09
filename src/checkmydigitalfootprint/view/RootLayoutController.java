@@ -31,6 +31,21 @@ public class RootLayoutController {
 	}
 	
 	@FXML
+	private void handleSaveAs() {
+		FileChooser fileChooser = new FileChooser();
+		
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+		
+		fileChooser.getExtensionFilters().add(extFilter);
+		
+		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+		
+		if (file != null) {
+			mainApp.saveWebsiteDataToFile(file);
+		}
+	}
+	
+	@FXML
 	private void handleAddCredentials() {
 		
 		FileChooser fileChooser = new FileChooser();
