@@ -52,7 +52,7 @@ public class MainApp extends Application {
 		System.out.println("Starting..");
 		initRootLayout();
 		showWebsiteOverview();
-		showLoadCredentialsWindow();
+//		showLoadCredentialsWindow();
 //		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 //		prefs.remove("credentialsFilePath");
 		
@@ -113,10 +113,6 @@ public class MainApp extends Application {
 			
 			FileUploadController controller = loader.getController();
 			controller.setMainApp(this);
-			controller.setOnDragOver(page);
-			controller.setOnDragEntered(page);
-			controller.setOnDragDropped(page);
-			controller.setOnDragExited(page);
 			fileUploadStage.showAndWait();
 			
 			

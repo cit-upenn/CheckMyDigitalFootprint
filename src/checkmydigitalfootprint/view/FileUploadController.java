@@ -11,56 +11,58 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 public class FileUploadController {
 	
 	private MainApp mainApp;
 	
-	public FileUploadController() {
+	@FXML
+	private Pane pane;
 	
-	}
+	@FXML
+	private Text uploadText;
 	
-	public void setOnDragOver(AnchorPane window) {
-		window.setOnDragOver(new EventHandler<DragEvent>() {
+	@FXML
+	private void initialize() {
+
+		pane.setOnDragOver(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(final DragEvent event) {
 				event.acceptTransferModes(TransferMode.ANY);
+				mouseDragOver(event);
 				event.consume();
 			}
-			
 		});
-	}
-	
-	public void setOnDragEntered(AnchorPane window) {
-		window.setOnDragEntered(new EventHandler<DragEvent>() {
+		
+		pane.setOnDragEntered(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {
-				System.out.println("entering");
 				event.consume();
 			}
 		});
-	}
-	
-	public void setOnDragDropped(AnchorPane window) {
-		window.setOnDragDropped(new EventHandler<DragEvent>() {
+		
+		pane.setOnDragDropped(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(final DragEvent event) {
-				System.out.println(event);
 				mouseDragDropped(event);
 				event.consume();
 			}
 		});
-	}
-	
-	public void setOnDragExited(AnchorPane window) {
-		window.setOnDragExited(new EventHandler<DragEvent>() {
+		
+		pane.setOnDragExited(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(final DragEvent event) {
-				System.out.println("exit: " + event);
+				pane.setStyle("-fx-border-width: 0;");
 				event.consume();
 			}
 		});
+	}
+	
+	public FileUploadController() {
+		
 	}
 	
 	
@@ -80,22 +82,31 @@ public class FileUploadController {
 		}
 	}
 	
-	private void mouseDragOver(final DragEvent e) {
-		final Dragboard db = e.getDragboard();
+	private void mouseDragOver(DragEvent e) {
+		Dragboard db = e.getDragboard();
 		
-		final boolean isAccepted = db.getFiles().get(0).getName().toLowerCase().endsWith(".json");
-		System.out.println("dragging");
+		boolean isAccepted = db.getFiles().get(0).getName().toLowerCase().endsWith(".json");
+	
+		if (isAccepted) {
+			File file = db.getFiles().get(0);
+			System.out.println("dragging");
+			pane.setStyle("-fx-border-width: 2;" + 
+					"-fx-border-color: black;" +
+					"-fx-border-radius: 5;" +
+					"-fx-border-style: dashed;");
+			uploadText.setText(file.getName());
+		}
 	}
 	
-	private void mouseDragDropped(final DragEvent e) {
-		final Dragboard db = e.getDragboard();
+	private void mouseDragDropped(DragEvent e) {
+		Dragboard db = e.getDragboard();
 		System.out.println("dropped");
-		boolean success = false;
 		
 		if (db.hasFiles()) {
-			success = true;
 			
-			final File file = db.getFiles().get(0);
+			File file = db.getFiles().get(0);
+			
+			uploadText.setText(file.getName());
 			
 			if (file != null) {
 				mainApp.loadCredentialsFromFile(file);
