@@ -13,12 +13,12 @@ public class Website {
 	private final BooleanProperty delete;
 	
 	public Website() {
-		this(null, false);
+		this(null);
 	}
 	
-	public Website(String website, boolean accountExists) {
+	public Website(String website) {
 		this.website = new SimpleStringProperty(website);
-		this.accountExists = new SimpleBooleanProperty(accountExists);
+		this.accountExists = new SimpleBooleanProperty(true);
 		this.keep = new SimpleBooleanProperty(false);
 		this.delete = new SimpleBooleanProperty(false);
 	}

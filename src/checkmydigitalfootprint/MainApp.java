@@ -40,9 +40,8 @@ public class MainApp extends Application {
 	private ObservableList<Website> websiteData = FXCollections.observableArrayList();
 	
 	public MainApp() {
-		websiteData.add(new Website("www.linkedin.com", true));
-		websiteData.add(new Website("www.face.com", true));
-		websiteData.add(new Website("www.reddit.com", true));
+		websiteData.add(new Website("www.linkedin.com"));
+
 
 	}
 	
@@ -161,7 +160,6 @@ public class MainApp extends Application {
 			JAXBContext context = JAXBContext.newInstance(WebsiteListWrapper.class);
 			
 			Unmarshaller um = context.createUnmarshaller();
-			
 			WebsiteListWrapper wrapper = (WebsiteListWrapper) um.unmarshal(file);
 			System.out.println(um.unmarshal(file));
 			websiteData.clear();
