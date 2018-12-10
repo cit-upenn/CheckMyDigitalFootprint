@@ -28,6 +28,7 @@ import java.io.Writer;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,7 +42,18 @@ public class GmailQuickstart {
     private static final String APPLICATION_NAME = "Gmail API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    
+	private static ArrayList<Email> emails = new ArrayList<Email>();
+    
+    public static ArrayList<Email> getEmails() {
+		return emails;
+	}
 
+	public void setEmails(ArrayList<Email> emails) {
+		GmailQuickstart.emails = emails;
+	}
+	
+ 
     /**
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
@@ -80,14 +92,12 @@ public class GmailQuickstart {
 
         
         //create array of emails to hold emails
-        ArrayList<Email> emails = new ArrayList<Email>();
+        
         
         // Print the labels in the user's account.
         String user = "me";
-        ListLabelsResponse listResponse = service.users().labels().list(user).execute();
-        List<Label> labels = listResponse.getLabels();
-        
-        
+//        ListLabelsResponse listResponse = service.users().labels().list(user).execute();
+//        List<Label> labels = listResponse.getLabels();
         
         
         ListMessagesResponse idList = service.users().messages().list(user).setQ("").execute();
@@ -107,41 +117,46 @@ public class GmailQuickstart {
 //        }
         //i = tracker, i<tracker+10
         long start = System.currentTimeMillis();
+//        for (int i = 0; i < 5; i++) {
         for (int i = 0; i < jsonIds.length(); i++) {
 //        	emails.add(jsonIds.getJSONObject(i).getString("id"));
         	tracker = i;
-        	System.out.println(jsonIds.getJSONObject(i).getString("id"));
+//        	System.out.println(jsonIds.getJSONObject(i).getString("id"));
         	Email email = new Email(service.users().messages().get("me", jsonIds.getJSONObject(i).getString("id")).execute().toString());
+//        	System.out.println(email.getEmail());
         	emails.add(email);
         }
         long finish = System.currentTimeMillis();
-        System.out.println(finish-start);
-        System.out.println(emails.size());
         
-        int counter = 0;
-        while (counter<emails.size()) {
-        	System.out.println(emails.get(counter).getEmail());
-        	counter++;
-        }
-//        wr.write(tracker +"");
-//        wr.close();
-//        System.out.println(service.users().messages().get("me", jsonIds.getJSONObject(37).getString("id")).execute());
-//        System.out.println(jsonIds.length());
         
-//        System.out.println(service.users().messages().get("me", "1678ee3c3d6e1799").execute());
-//        ListMessagesResponse messageResponse = service.users().messages().list(user).execute();
-//        if (labels.isEmpty()) {
-//            System.out.println("No labels found.");
-//        } else {
-//            System.out.println("Labels:");
-//            for (Label label : labels) {
-//                System.out.printf("- %s\n", label.getName());
-//            }
-//        }
+//        System.out.println(finish-start);
+//        System.out.println(emails.size());
         
-//        Tester test = new Tester();
-//        Get email = new Get();
         
-//        test.listMessagesMatchingQuery(service, "me", "a");
+        //======================================================================================================================================//
+        // email parsing																															//
+       //======================================================================================================================================//
+       ArrayList<Email> subList =  new ArrayList<Email>(emails.subList(2, 4));
+        // create parser 
+//		EmailParser parser = new EmailParser(emails);
+		EmailParser parser = new EmailParser(subList);
+	
+		try {
+			// make hashmap 
+			parser.parseToMap();
+			// get hashmap 
+			HashMap<String, Website> emailMap = parser.getEmailMap();
+			
+			// print hashmap 
+			for (String value: emailMap.keySet()) {
+				System.out.println(emailMap.get(value).getWebsite());
+			}	
+			
+		} catch (JSONException j) {
+			System.out.println("JSON could not parse.");
+			j.printStackTrace();
+			
+		}
+		System.out.println("end");
     }
 }

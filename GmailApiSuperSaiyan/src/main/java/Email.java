@@ -2,19 +2,23 @@ package main.java;
 
 public class Email {
 
-	String ArvindBhusnurmath;
+	String email;
 
 	// this implements email
-	Email(String ArvindBhusnurmath) {
-		this.ArvindBhusnurmath = ArvindBhusnurmath;
+	Email(String email) {
+		this.email = email;
 	}
 
 	public String getEmail() {
-		return ArvindBhusnurmath;
+		return email;
 	}
 
-	public void setEmail(String arvindBhusnurmath) {
-		ArvindBhusnurmath = arvindBhusnurmath;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String printEmail() {
+		return email;
 	}
 
 	
