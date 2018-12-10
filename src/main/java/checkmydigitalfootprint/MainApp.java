@@ -8,6 +8,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import checkmydigitalfootprint.model.Website;
+import checkmydigitalfootprint.model.WebsiteListWrapper;
+import checkmydigitalfootprint.util.GmailApi;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +30,7 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private Stage fileUploadStage;
-//	private GmailApi gmailApi;
+	private GmailApi gmailApi;
 	
 	private ObservableList<Website> websiteData = FXCollections.observableArrayList();
 	
@@ -142,7 +145,7 @@ public class MainApp extends Application {
 	}
 	
 	public void loadCredentialsFromFile(File file) {
-//		gmailApi = new GmailApi(file);
+		gmailApi = new GmailApi(file);
 		
 		setCredentialsFilePath(file);
 		if (fileUploadStage != null) {
@@ -219,7 +222,7 @@ public class MainApp extends Application {
 	
 	public void handleScanInbox() {
 	
-//		gmailApi.scanInbox();
+		gmailApi.scanInbox();
 	}
 	
 	public Stage getPrimaryStage() {

@@ -67,7 +67,7 @@ public class FileUploadController {
 		
 		FileChooser fileChooser = new FileChooser();
 		
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(null, "*.json");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON Files", "*.json");
 		
 		fileChooser.getExtensionFilters().add(extFilter);
 		

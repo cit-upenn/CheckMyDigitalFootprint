@@ -3,6 +3,7 @@ package checkmydigitalfootprint;
 
 import com.jfoenix.controls.JFXButton;
 
+import checkmydigitalfootprint.model.Website;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;

@@ -17,12 +17,12 @@ public class RootLayoutController {
 	private void handleOpen() {
 		FileChooser fileChooser = new FileChooser();
 
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(null, "*.xml");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML Files", "*.xml");
 		
 		fileChooser.getExtensionFilters().add(extFilter);
 		
 		File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-		
+		System.out.println("open file: " + file);
 		if (file != null) {
 			mainApp.loadWebsiteDataFromFile(file);
 		}
