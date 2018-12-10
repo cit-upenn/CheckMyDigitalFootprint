@@ -1,0 +1,37 @@
+plugins {
+  id 'application'
+  id 'org.openjfx.javafxplugin' version '0.0.5'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /* uncomment for cross-platform jar: */
+//    compile "org.openjfx:javafx-graphics:11:win"
+//    compile "org.openjfx:javafx-graphics:11:linux"
+//    compile "org.openjfx:javafx-graphics:11:mac"
+	compile 'com.jfoenix:jfoenix:9.0.8'
+    compile 'org.json:json:20180813'
+    compile 'com.google.api-client:google-api-client:1.23.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    compile 'com.google.apis:google-api-services-gmail:v1-rev83-1.23.0'
+    compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.0.1'
+	compile 'com.sun.activation:javax.activation:1.2.0'  
+	compile files('libs/CheckMyDigitalFootprint.jar')
+	
+}
+
+javafx {
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+run {
+    if (osdetector.os == 'windows') {
+        // Temporal fix for Eclipse with JDK 1.8 and Windows 
+        systemProperty "java.library.path", "C:\tmp"
+    }
+}
+
+mainClassName = 'checkmydigitalfootprint.MainApp'
