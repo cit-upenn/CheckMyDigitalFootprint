@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	
+	<project name="CheckMyDigitalFootprint" default="do-deploy" basedir="."  xmlns:fx="javafx:com.sun.javafx.tools.ant">
+	<target name="init-fx-tasks">
+		<path id="fxant">
+			<filelist>
+				<file name="${java.home}\..\lib\ant-javafx.jar"/>
+				<file name="${java.home}\lib\jfxrt.jar"/>
+				<file name="${basedir}"/>
+			</filelist>
+		</path>
+		
+		<echo>${java.home}</echo>
+		<echo>${basedir}</echo>
+		
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+			uri="javafx:com.sun.javafx.tools.ant"
+			classpathref="fxant"/>
+	</target>
+	<target name="setup-staging-area">
+		<delete dir="externalLibs" />
+		<delete dir="project" />
+		<delete dir="projectRefs" />
+	
+		<mkdir dir="externalLibs" />
+	
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-api-client-appengine-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="httpclient-4.5.5.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="jetty-6.1.26.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="jsr305-3.0.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="httpclient-4.5.3.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="jdo2-api-2.3-eb.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="jaxb-core-2.3.0.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-oauth-client-jetty-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail">
+				<filename name="google-api-services-gmail-v1-rev96-1.25.0-sources.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-api-client-android-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-http-client-appengine-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx.web.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="gson-2.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-http-client-gson-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-appengine-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-http-client-jackson2-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="jetty-util-6.1.26.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx.fxml.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx.media.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-android-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx.graphics.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-jdo-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-oauth-client-java6-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-oauth-client-jetty-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="json-20180813.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx.base.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-oauth-client-appengine-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-http-client-android-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="jsr305-3.0.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="httpcore-4.4.6.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="transaction-api-1.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="gson-2.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx.controls.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-java6-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="transaction-api-1.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-oauth-client-servlet-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-appengine-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="jackson-core-asl-1.9.11.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-oauth-client-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-gson-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-api-client-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-oauth-client-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail">
+				<filename name="google-api-services-gmail-v1-rev96-1.25.0-javadoc.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="jackson-core-2.9.6.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="jdo2-api-2.3-eb.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-api-client-jackson2-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="jetty-6.1.26.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="jackson-core-2.9.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="javax.activation-1.2.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-api-client-gson-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="protobuf-java-2.6.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-api-client-java6-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="servlet-api.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="jetty-util-6.1.26.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="guava-20.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-oauth-client-java6-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-xml-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx.swing.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="jaxb-impl-2.3.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-api-client-servlet-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-http-client-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-servlet-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-jackson2-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-jackson2-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-http-client-jdo-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-gson-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="jaxb-api-2.2.3.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-api-client-protobuf-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail/libs">
+				<filename name="google-oauth-client-servlet-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="javax.mail-api-1.6.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-xml-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="json-simple-1.1.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="commons-logging-1.2.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-oauth-client-appengine-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/gmail">
+				<filename name="google-api-services-gmail-v1-rev96-1.25.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-jackson-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-protobuf-1.24.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="xpp3-1.1.4c.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads">
+				<filename name="jfoenix-9.0.6.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/eclipse-workspace/javafx-sdk-11.0.1/lib">
+				<filename name="javafx-swt.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="/Users/Joseph/Downloads/google-api-java-client/libs">
+				<filename name="google-http-client-android-1.24.1.jar"/>
+			</fileset>
+		</copy>
+	
+		<mkdir dir="project" />
+		<copy todir="project">
+			<fileset dir="/Users/Joseph/eclipse-workspace/CheckMyDigitalFootprint">
+				<include name="src/**" />
+			</fileset>
+		</copy>
+	
+		<mkdir dir="projectRefs" />
+	</target>
+	<target name='do-compile'>
+		<delete dir="build" />
+		<mkdir dir="build/src" />
+		<mkdir dir="build/libs" />
+		<mkdir dir="build/classes" />
+	
+		<!-- Copy project-libs references -->
+		<copy todir="build/libs">
+			<fileset dir="externalLibs">
+				<include name="google-api-client-jackson2-1.25.0.jar"/>
+				<include name="google-api-services-gmail-v1-rev96-1.25.0-javadoc.jar"/>
+				<include name="javafx-swt.jar"/>
+				<include name="google-api-client-1.24.1.jar"/>
+				<include name="jackson-core-asl-1.9.11.jar"/>
+				<include name="google-oauth-client-1.24.1.jar"/>
+				<include name="json-20180813.jar"/>
+				<include name="google-oauth-client-servlet-1.24.1.jar"/>
+				<include name="google-http-client-appengine-1.25.0.jar"/>
+				<include name="protobuf-java-2.6.1.jar"/>
+				<include name="javafx.controls.jar"/>
+				<include name="commons-logging-1.2.jar"/>
+				<include name="javafx.media.jar"/>
+				<include name="google-api-client-appengine-1.24.1.jar"/>
+				<include name="google-oauth-client-servlet-1.25.0.jar"/>
+				<include name="google-http-client-android-1.24.1.jar"/>
+				<include name="google-http-client-jackson2-1.24.1.jar"/>
+				<include name="jaxb-impl-2.3.1.jar"/>
+				<include name="google-http-client-protobuf-1.24.1.jar"/>
+				<include name="jdo2-api-2.3-eb.jar"/>
+				<include name="google-http-client-gson-1.24.1.jar"/>
+				<include name="google-oauth-client-appengine-1.25.0.jar"/>
+				<include name="google-api-client-protobuf-1.24.1.jar"/>
+				<include name="google-oauth-client-1.25.0.jar"/>
+				<include name="httpcore-4.4.6.jar"/>
+				<include name="google-oauth-client-jetty-1.24.1.jar"/>
+				<include name="google-api-client-gson-1.24.1.jar"/>
+				<include name="jfoenix-9.0.6.jar"/>
+				<include name="google-oauth-client-appengine-1.24.1.jar"/>
+				<include name="transaction-api-1.1.jar"/>
+				<include name="google-http-client-jdo-1.25.0.jar"/>
+				<include name="google-api-client-servlet-1.25.0.jar"/>
+				<include name="javafx.web.jar"/>
+				<include name="google-api-client-1.25.0.jar"/>
+				<include name="google-api-client-java6-1.25.0.jar"/>
+				<include name="servlet-api.jar"/>
+				<include name="google-api-client-servlet-1.24.1.jar"/>
+				<include name="google-oauth-client-jetty-1.25.0.jar"/>
+				<include name="jackson-core-2.9.6.jar"/>
+				<include name="json-simple-1.1.1.jar"/>
+				<include name="jaxb-core-2.3.0.1.jar"/>
+				<include name="google-api-services-gmail-v1-rev96-1.25.0.jar"/>
+				<include name="google-api-client-android-1.25.0.jar"/>
+				<include name="google-http-client-jdo-1.24.1.jar"/>
+				<include name="google-oauth-client-java6-1.24.1.jar"/>
+				<include name="javax.activation-1.2.0.jar"/>
+				<include name="javafx.fxml.jar"/>
+				<include name="google-api-services-gmail-v1-rev96-1.25.0-sources.jar"/>
+				<include name="google-http-client-jackson-1.24.1.jar"/>
+				<include name="xpp3-1.1.4c.jar"/>
+				<include name="google-http-client-1.25.0.jar"/>
+				<include name="javax.mail-api-1.6.2.jar"/>
+				<include name="httpclient-4.5.5.jar"/>
+				<include name="google-api-client-android-1.24.1.jar"/>
+				<include name="google-api-client-java6-1.24.1.jar"/>
+				<include name="jsr305-3.0.2.jar"/>
+				<include name="javafx.swing.jar"/>
+				<include name="google-oauth-client-java6-1.25.0.jar"/>
+				<include name="javafx.graphics.jar"/>
+				<include name="google-api-client-xml-1.24.1.jar"/>
+				<include name="google-http-client-appengine-1.24.1.jar"/>
+				<include name="google-api-client-appengine-1.25.0.jar"/>
+				<include name="google-api-client-jackson2-1.24.1.jar"/>
+				<include name="gson-2.1.jar"/>
+				<include name="jackson-core-2.9.2.jar"/>
+				<include name="jaxb-api-2.2.3.jar"/>
+				<include name="guava-20.0.jar"/>
+				<include name="google-http-client-gson-1.25.0.jar"/>
+				<include name="google-http-client-1.24.1.jar"/>
+				<include name="jetty-6.1.26.jar"/>
+				<include name="google-api-client-gson-1.25.0.jar"/>
+				<include name="httpclient-4.5.3.jar"/>
+				<include name="google-http-client-xml-1.24.1.jar"/>
+				<include name="javafx.base.jar"/>
+				<include name="jetty-util-6.1.26.jar"/>
+				<include name="google-http-client-android-1.25.0.jar"/>
+				<include name="google-http-client-jackson2-1.25.0.jar"/>
+			</fileset>
+		</copy>
+	
+		<!-- Copy project references -->
+	
+		<!-- Copy project sources itself -->
+		<copy todir="build/src">
+			<fileset dir="project/src">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	
+		<javac includeantruntime="false" source="11" target="11" srcdir="build/src" destdir="build/classes" encoding="UTF-8">
+			<classpath>
+				<fileset dir="build/libs">
+					<include name="*"/>
+				</fileset>
+			</classpath>
+		</javac>
+	
+		<!-- Copy over none Java-Files -->
+		<copy todir="build/classes">
+		<fileset dir="project/src">
+			<exclude name="**/*.java"/>
+		</fileset>
+		</copy>
+	
+	
+	</target>
+	<target name="do-deploy" depends="setup-staging-area, do-compile, init-fx-tasks">
+		<delete file="dist"/>
+		<delete file="deploy" />
+	
+		<mkdir dir="dist" />
+		<mkdir dir="dist/libs" />
+	
+		<copy todir="dist/libs">
+			<fileset dir="externalLibs">
+				<include name="*" />
+			</fileset>
+		</copy>
+	
+	
+		<fx:resources id="appRes">
+			<fx:fileset dir="dist" includes="CheckMyDigitalFootprint.jar"/>
+			<fx:fileset dir="dist" includes="libs/*"/>
+		</fx:resources>
+	
+		<fx:application id="fxApplication"
+			name="CheckMyDigitalFootprint"
+			mainClass="checkmydigitalfootprint.MainApp"
+			version="1.0"
+		/>
+	
+		<mkdir dir="build/classes/META-INF" />
+	
+	
+	
+		<fx:jar destfile="dist/CheckMyDigitalFootprint.jar">
+			<fx:application refid="fxApplication"/>
+			<fileset dir="build/classes">
+			</fileset>
+			<fx:resources refid="appRes"/>
+	
+			<manifest>
+				<attribute name="Implementation-Vendor" value="checkmydigitalfootprint"/>
+				<attribute name="Implementation-Title" value="CheckMyDigitalFootprint"/>
+				<attribute name="Implementation-Version" value="1.0"/>
+				<attribute name="JavaFX-Feature-Proxy" value="None"/>
+			</manifest>
+		</fx:jar>
+	
+	
+		<mkdir dir="deploy" />
+		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
+		<fx:deploy
+			embedJNLP="false"
+			extension="false"
+			includeDT="false"
+			offlineAllowed="true"
+			outdir="${basedir}/deploy"
+			outfile="CheckMyDigitalFootprint" nativeBundles="dmg"
+			updatemode="background" >
+	
+			<fx:platform basedir="${java.home}"/>
+			<fx:info title="CheckMyDigitalFootprint" vendor="checkmydigitalfootprint"/>
+	
+			<fx:application refId="fxApplication"/>
+			<fx:resources refid="appRes"/>
+		</fx:deploy>
+	
+	
+	</target>
+</project>

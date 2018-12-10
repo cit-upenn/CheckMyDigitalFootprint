@@ -1,7 +1,6 @@
 package checkmydigitalfootprint.view;
 
 import java.io.File;
-import java.util.prefs.Preferences;
 
 import checkmydigitalfootprint.MainApp;
 import javafx.fxml.FXML;

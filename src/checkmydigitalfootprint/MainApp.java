@@ -17,12 +17,10 @@ import checkmydigitalfootprint.view.WebsiteOverviewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -41,8 +39,6 @@ public class MainApp extends Application {
 	
 	public MainApp() {
 		websiteData.add(new Website("www.linkedin.com"));
-
-
 	}
 	
 	public ObservableList<Website> getWebsiteData() {
@@ -79,12 +75,17 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		
-		File file = getCredentialsFilePath();
-		if (file != null) {
-			loadCredentialsFromFile(file);
+		File credentialsFile = getCredentialsFilePath();
+		if (credentialsFile != null) {
+			loadCredentialsFromFile(credentialsFile);
 		} else {
 			showLoadCredentialsWindow();
 		}
+		
+		File websiteFile = getWebsiteFilePath();
+		if (websiteFile != null) {
+			loadWebsiteDataFromFile(websiteFile);
+		} 
 	}
 	
 	public void showWebsiteOverview() {
@@ -161,7 +162,6 @@ public class MainApp extends Application {
 			
 			Unmarshaller um = context.createUnmarshaller();
 			WebsiteListWrapper wrapper = (WebsiteListWrapper) um.unmarshal(file);
-			System.out.println(um.unmarshal(file));
 			websiteData.clear();
 			websiteData.addAll(wrapper.getWebsites());
 			
@@ -211,8 +211,19 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public File getWebsiteFilePath() {
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		String filePath = prefs.get("websiteFilePath",  null);
+		if (filePath != null) {
+			return new File(filePath);
+		} else {
+			return null;
+		}
+	}
+	
 	public void handleScanInbox() {
-		
+	
+		gmailApi.scanInbox();
 	}
 	
 	public Stage getPrimaryStage() {

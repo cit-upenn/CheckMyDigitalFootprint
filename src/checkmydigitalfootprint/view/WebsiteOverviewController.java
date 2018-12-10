@@ -1,7 +1,11 @@
 package checkmydigitalfootprint.view;
 
+
+import com.jfoenix.controls.JFXButton;
+
 import checkmydigitalfootprint.MainApp;
 import checkmydigitalfootprint.model.Website;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -20,10 +24,13 @@ public class WebsiteOverviewController {
 	
 	@FXML 
 	private TableColumn<Website, String> keepColumn;
+	
+	@FXML
+	private JFXButton scanButton;
+	
+	private boolean isScanning = false;
 
 	private MainApp mainApp;
-	
-	
 	
 	private FilteredList<Website> keepData;
 	
@@ -38,8 +45,9 @@ public class WebsiteOverviewController {
 	public void initialize() {
 		deleteColumn.setCellValueFactory(cellData -> cellData.getValue().websiteProperty());
 		
-		
 		keepColumn.setCellValueFactory(cellData -> cellData.getValue().websiteProperty());
+		
+		scanButton.visibleProperty().bind(new SimpleBooleanProperty(!isScanning));
 		
 	}
 	
@@ -51,4 +59,14 @@ public class WebsiteOverviewController {
 		deleteTable.setItems(deleteData);
 		keepTable.setItems(keepData);
 	}
+	
+	@FXML
+	public void handleScanInbox() {
+	
+		isScanning = true;
+		mainApp.handleScanInbox();
+			
+	}
+	
+	
 }

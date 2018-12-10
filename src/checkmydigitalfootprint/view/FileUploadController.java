@@ -1,16 +1,13 @@
 package checkmydigitalfootprint.view;
 
 import java.io.File;
-import java.io.IOException;
 
 import checkmydigitalfootprint.MainApp;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
