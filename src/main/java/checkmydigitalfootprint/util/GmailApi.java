@@ -9,6 +9,8 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,8 +28,6 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
-
-import javafx.concurrent.Task;
 
 public class GmailApi {
 	
@@ -83,7 +83,7 @@ public class GmailApi {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 	
-	public void scanInbox() {
+	public void scanInbox(AtomicBoolean paused) {
 		String user = "me";
 		
 		try {
@@ -100,10 +100,20 @@ public class GmailApi {
 			long start = System.currentTimeMillis();
 			for (int i = 0; i < jsonIds.length(); i++) {
 				
+				synchronized (paused) {
+					if (paused.get()) {
+						try {
+							paused.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}				
 				tracker = i;
 				System.out.println(jsonIds.getJSONObject(i).getString("id"));
 				Email email = new Email(service.users().messages().get("me", jsonIds.getJSONObject(i).getString("id")).execute().toString());
 				emails.add(email);
+				System.out.println("tracker: " + i);
 			}
 			long finish = System.currentTimeMillis();
 			System.out.println(finish-start);

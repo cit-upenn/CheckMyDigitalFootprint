@@ -2,6 +2,7 @@ package checkmydigitalfootprint;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.prefs.Preferences;
 
 import javax.xml.bind.JAXBContext;
@@ -14,7 +15,6 @@ import checkmydigitalfootprint.util.GmailApi;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -32,6 +32,7 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	private Stage fileUploadStage;
 	private GmailApi gmailApi;
+	private final AtomicBoolean paused = new AtomicBoolean(false);
 	
 	private ObservableList<Website> websiteData = FXCollections.observableArrayList();
 	
@@ -221,8 +222,21 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public void handleScanInbox() {
-		gmailApi.scanInbox();
+	public void handleScanInbox(AtomicBoolean paused) {
+		gmailApi.scanInbox(paused);
+	}
+	
+	public void pause() {
+		paused.compareAndSet(false, true);
+	}
+	
+	public void resume() {
+		synchronized(paused) {
+			if (paused.get()) {
+				paused.set(false);
+				paused.notify();
+			}
+		}
 	}
 	
 	public Stage getPrimaryStage() {
