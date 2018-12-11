@@ -1,6 +1,7 @@
 plugins {
   id 'application'
   id 'org.openjfx.javafxplugin' version '0.0.5'
+  id 'eclipse'
 }
 
 repositories {
@@ -17,9 +18,8 @@ dependencies {
     compile 'com.google.api-client:google-api-client:1.23.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.apis:google-api-services-gmail:v1-rev83-1.23.0'
-    compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.0.1'
+	compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.1'
 	compile 'com.sun.activation:javax.activation:1.2.0'  
-	compile files('libs/CheckMyDigitalFootprint.jar')
 	
 }
 

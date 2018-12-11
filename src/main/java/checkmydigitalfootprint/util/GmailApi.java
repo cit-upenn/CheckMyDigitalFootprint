@@ -27,6 +27,8 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 
+import javafx.concurrent.Task;
+
 public class GmailApi {
 	
 	private final String APPLICATION_NAME = "Gmail API Java Quickstart";
@@ -97,6 +99,7 @@ public class GmailApi {
 
 			long start = System.currentTimeMillis();
 			for (int i = 0; i < jsonIds.length(); i++) {
+				
 				tracker = i;
 				System.out.println(jsonIds.getJSONObject(i).getString("id"));
 				Email email = new Email(service.users().messages().get("me", jsonIds.getJSONObject(i).getString("id")).execute().toString());

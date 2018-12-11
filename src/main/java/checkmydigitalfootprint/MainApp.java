@@ -14,6 +14,7 @@ import checkmydigitalfootprint.util.GmailApi;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -58,7 +59,7 @@ public class MainApp extends Application {
 	public void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			System.out.println(MainApp.class.getResource("RootLayout.fxml"));
+
 			loader.setLocation(MainApp.class.getResource("RootLayout.fxml"));
 			
 			rootLayout = (BorderPane) loader.load();
@@ -221,7 +222,6 @@ public class MainApp extends Application {
 	}
 	
 	public void handleScanInbox() {
-	
 		gmailApi.scanInbox();
 	}
 	
