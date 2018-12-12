@@ -22,7 +22,7 @@
                <children>
                   <StackPane fx:id="stackPane" layoutX="110.0" layoutY="318.0" prefHeight="80.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0">
                      <children>
-                        <JFXButton fx:id="scanButton" onAction="#handleScanInbox" prefHeight="45.0" prefWidth="220.0" text="Scan">
+                        <JFXButton id="scan-btn" fx:id="scanButton" onAction="#handleScanInbox" prefHeight="45.0" prefWidth="220.0" text="Scan">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -36,12 +36,12 @@
                   </StackPane>
                   <Pane layoutX="62.0" layoutY="237.0" prefHeight="50.0" prefWidth="300.0">
                      <children>
-                        <JFXButton fx:id="moveKeepbutton" layoutY="13.0" onAction="#moveKeep" prefHeight="42.0" prefWidth="137.0" text="&lt;&lt;  Keep List">
+                        <JFXButton id="keep-btn" fx:id="moveKeepbutton" layoutY="13.0" onAction="#moveKeep" prefHeight="42.0" prefWidth="137.0" text="&lt;&lt;  Keep List">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="moveDeleteButton" layoutX="163.0" layoutY="13.0" onAction="#moveDelete" prefHeight="42.0" prefWidth="137.0" text="Delete List &gt;&gt;">
+                        <JFXButton id="delete-btn" fx:id="moveDeleteButton" layoutX="163.0" layoutY="13.0" onAction="#moveDelete" prefHeight="42.0" prefWidth="137.0" text="Delete List &gt;&gt;">
                            <font>
                               <Font size="18.0" />
                            </font>
