@@ -47,7 +47,7 @@ public class MainApp extends Application {
 	ObservableMap<String, ListServer> listServerMap = FXCollections.observableHashMap();
 	
 	public MainApp() {
-//		listServerMap.put("Linkedin", new ListServer("Linkedin", "www.linkedin.com"));
+
 	}
 	
 	public ObservableList<ListServer> getListServerList() {
@@ -66,8 +66,8 @@ public class MainApp extends Application {
 		initRootLayout();
 		showListServerOverview();
 //		showLoadCredentialsWindow();
-//		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-//		prefs.remove("websiteFilePath");
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		prefs.remove("listServerFilePath");
 		
 	}
 	
@@ -91,6 +91,7 @@ public class MainApp extends Application {
 		}
 		
 		File credentialsFile = getCredentialsFilePath();
+		System.out.println("Loading credentials file...: " + credentialsFile);
 		if (credentialsFile != null) {
 			loadCredentialsFromFile(credentialsFile);
 		} else {
@@ -98,7 +99,7 @@ public class MainApp extends Application {
 		}
 		
 		File listServerFile = getListServerFilePath();
-		System.out.println("Loading from file...: " + listServerFile);
+		System.out.println("Loading list data from file...: " + listServerFile);
 		if (listServerFile != null) {
 			loadListServerDataFromFile(listServerFile);
 		}

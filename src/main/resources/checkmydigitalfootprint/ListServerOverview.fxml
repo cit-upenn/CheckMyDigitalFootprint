@@ -2,19 +2,20 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="checkmydigitalfootprint.ListServerOverviewController">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="checkmydigitalfootprint.ListServerOverviewController">
    <children>
       <SplitPane dividerPositions="0.2408026755852843, 0.7759197324414716" layoutX="49.0" layoutY="47.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXListView fx:id="keepListView" layoutX="-6.0" layoutY="-71.0" prefHeight="398.0" prefWidth="188.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <JFXListView fx:id="keepListView" layoutX="-6.0" layoutY="-71.0" prefHeight="398.0" prefWidth="191.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -33,24 +34,34 @@
                         </JFXButton>
                      </children>
                   </StackPane>
-                  <Pane layoutX="60.0" layoutY="166.0" prefHeight="100.0" prefWidth="300.0">
+                  <Pane layoutX="62.0" layoutY="237.0" prefHeight="50.0" prefWidth="300.0">
                      <children>
-                        <JFXButton fx:id="moveKeepbutton" layoutY="55.0" onAction="#moveKeep" text="&lt;&lt;  Keep List">
+                        <JFXButton fx:id="moveKeepbutton" layoutY="13.0" onAction="#moveKeep" prefHeight="42.0" prefWidth="137.0" text="&lt;&lt;  Keep List">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="moveDeleteButton" layoutX="156.0" layoutY="55.0" onAction="#moveDelete" text="Delete List &gt;&gt;">
+                        <JFXButton fx:id="moveDeleteButton" layoutX="163.0" layoutY="13.0" onAction="#moveDelete" prefHeight="42.0" prefWidth="137.0" text="Delete List &gt;&gt;">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXButton>
                      </children>
                   </Pane>
+                  <Pane fx:id="listServerDetailsPane" layoutX="57.0" layoutY="102.0" prefHeight="113.0" prefWidth="310.0" />
+                  <Pane id="header-box" prefHeight="80.0" prefWidth="424.0">
+                     <children>
+                        <Label id="header-text" layoutX="70.0" layoutY="25.0" text="CheckMyDigitalFootprint" textAlignment="CENTER">
+                           <font>
+                              <Font name="Menlo Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children></AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <JFXListView fx:id="deleteListView" layoutX="14.0" layoutY="-16.0" prefHeight="398.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <JFXListView fx:id="deleteListView" layoutX="14.0" layoutY="-16.0" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
         </items>

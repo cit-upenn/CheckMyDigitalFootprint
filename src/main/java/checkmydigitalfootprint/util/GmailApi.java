@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -21,9 +20,6 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -46,6 +42,7 @@ import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 
 import checkmydigitalfootprint.model.ListServer;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
@@ -139,8 +136,17 @@ public class GmailApi {
 						    		
 						    		if (listServerMap.get(fromEmail) == null) {
 						    			System.out.println("Entry added: " + fromName + ", " + fromEmail);
-						    			listServerList.add(listServer);
-						    			listServerMap.put(fromEmail, listServer);
+						    			
+						    			Platform.runLater(new Runnable() {
+
+											@Override
+											public void run() {
+												listServerList.add(listServer);
+								    			listServerMap.put(fromEmail, listServer);
+											}
+						    				
+						    			});
+						    			
 						    		}
 						    	}
 						    }
@@ -154,7 +160,7 @@ public class GmailApi {
 
 				@Override
 				public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
-
+					System.out.println("Parse email failed: " + e);
 				}
 			};
 
