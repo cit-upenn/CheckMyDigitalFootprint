@@ -18,14 +18,20 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.batch.BatchRequest;
+import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.Gmail.Users.Messages;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
+import com.google.api.services.gmail.model.Message;
 
 public class GmailApi {
 	
@@ -92,9 +98,34 @@ public class GmailApi {
 
 			JSONArray jsonIds = jObj.getJSONArray("messages"); 
 
-
+			int emailCount = (int) service.users().getProfile("me").get("messagesTotal");
+			System.out.println("LOOK HERE->>>>>>>>>>>>>>> " + emailCount);
 			int tracker = 0;
+			ArrayList<Message> emailArray = new ArrayList<Message>();
+			BatchRequest batch = service.batch();
+			JsonBatchCallback<Message> batchCallback = new JsonBatchCallback<Message>() {
 
+				@Override
+				public void onSuccess(Message t, HttpHeaders responseHeaders) throws IOException {
+					// TODO Auto-generated method stub
+					emailArray.add(t);
+					
+				}
+
+				@Override
+				public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			};
+			int counter = 0;
+			
+			while (counter<50) {
+				service.users().messages().get("me", jsonIds.getJSONObject(counter).getString("id")).queue(batch, batchCallback);
+				counter++;
+			}
+			batch.execute();
 			long start = System.currentTimeMillis();
 			for (int i = 0; i < jsonIds.length(); i++) {
 				tracker = i;
@@ -106,8 +137,8 @@ public class GmailApi {
 			System.out.println(finish-start);
 			System.out.println(emails.size());
 
-			int counter = 0;
-			while (counter<emails.size()) {
+			int counter2 = 0;
+			while (counter2<emails.size()) {
 				System.out.println(emails.get(counter).getEmail());
 				counter++;
 			}
