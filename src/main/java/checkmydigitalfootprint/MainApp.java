@@ -9,12 +9,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import checkmydigitalfootprint.model.Website;
-import checkmydigitalfootprint.model.WebsiteListWrapper;
+import checkmydigitalfootprint.model.ListServer;
+import checkmydigitalfootprint.model.ListServerListWrapper;
 import checkmydigitalfootprint.util.GmailApi;
 import javafx.application.Application;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -23,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 
 
@@ -34,14 +37,27 @@ public class MainApp extends Application {
 	private GmailApi gmailApi;
 	private final AtomicBoolean paused = new AtomicBoolean(false);
 	
-	private ObservableList<Website> websiteData = FXCollections.observableArrayList();
+	ObservableList<ListServer> listServerList = FXCollections.observableArrayList(new Callback<ListServer, Observable[]>() {
+		@Override
+		public Observable[] call(ListServer param) {
+			return new Observable[] { param.keepProperty() };
+		}
+	});
+	
+	ObservableMap<String, ListServer> listServerMap = FXCollections.observableHashMap();
 	
 	public MainApp() {
-		websiteData.add(new Website("www.linkedin.com"));
+		listServerList.add(new ListServer("Linkedin", "www.linkedin.com"));
+		listServerList.add(new ListServer("Facebook", "www.facebook.com"));
+//		listServerMap.put("Linkedin", new ListServer("Linkedin", "www.linkedin.com"));
 	}
 	
-	public ObservableList<Website> getWebsiteData() {
-		return websiteData;
+	public ObservableList<ListServer> getListServerList() {
+		return listServerList;
+	}
+	
+	public ObservableMap<String, ListServer> getListServerMap() {
+		return listServerMap;
 	}
 	
 	@Override
@@ -50,10 +66,10 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("MyDigitalFootprint");
 		System.out.println("Starting..");
 		initRootLayout();
-		showWebsiteOverview();
+		showListServerOverview();
 //		showLoadCredentialsWindow();
 //		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-//		prefs.remove("credentialsFilePath");
+//		prefs.remove("websiteFilePath");
 		
 	}
 	
@@ -85,19 +101,19 @@ public class MainApp extends Application {
 		
 		File websiteFile = getWebsiteFilePath();
 		if (websiteFile != null) {
-			loadWebsiteDataFromFile(websiteFile);
+			loadListServerDataFromFile(websiteFile);
 		} 
 	}
 	
-	public void showWebsiteOverview() {
+	public void showListServerOverview() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("WebsiteOverview.fxml"));
-			AnchorPane websiteOverview = (AnchorPane) loader.load();
-			rootLayout.setCenter(websiteOverview);
+			loader.setLocation(MainApp.class.getResource("ListServerOverview.fxml"));
+			AnchorPane listServerOverview = (AnchorPane) loader.load();
+			rootLayout.setCenter(listServerOverview);
 			
 			
-			WebsiteOverviewController controller = loader.getController();
+			ListServerOverviewController controller = loader.getController();
 			controller.setMainApp(this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -156,17 +172,16 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public void loadWebsiteDataFromFile(File file) {
+	public void loadListServerDataFromFile(File file) {
 		
 		try {
-			JAXBContext context = JAXBContext.newInstance(WebsiteListWrapper.class);
+			JAXBContext context = JAXBContext.newInstance(ListServerListWrapper.class);
 			
 			Unmarshaller um = context.createUnmarshaller();
-			WebsiteListWrapper wrapper = (WebsiteListWrapper) um.unmarshal(file);
-			websiteData.clear();
-			websiteData.addAll(wrapper.getWebsites());
-			
-			setWebsiteFilePath(file);
+			ListServerListWrapper wrapper = (ListServerListWrapper) um.unmarshal(file);
+			listServerList.clear();
+			listServerList.addAll(wrapper.getListServers());
+			setListServerFilePath(file);
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
@@ -177,21 +192,21 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public void saveWebsiteDataToFile(File file) {
+	public void saveListServerToFile(File file) {
 		
 		try {
 			
-			JAXBContext context = JAXBContext.newInstance(WebsiteListWrapper.class);
+			JAXBContext context = JAXBContext.newInstance(ListServerListWrapper.class);
 			
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			
-			WebsiteListWrapper wrapper = new WebsiteListWrapper();
-			wrapper.setPersons(websiteData);
+			ListServerListWrapper wrapper = new ListServerListWrapper();
+			wrapper.setListServers(listServerList);
 			
-			m.marshal(wrapper,  file);
+			m.marshal(wrapper, file);
 			
-			setWebsiteFilePath(file);
+			setListServerFilePath(file);
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
@@ -203,12 +218,12 @@ public class MainApp extends Application {
 		
 	}
 	
-	public void setWebsiteFilePath(File file) {
+	public void setListServerFilePath(File file) {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		if (file != null) {
-			prefs.put("websiteFilePath", file.getPath());
+			prefs.put("listServerFilePath", file.getPath());
 		} else {
-			prefs.remove("websiteFilePath");
+			prefs.remove("listServerFilePath");
 		}
 	}
 	
@@ -223,7 +238,7 @@ public class MainApp extends Application {
 	}
 	
 	public void handleScanInbox(AtomicBoolean paused) {
-		gmailApi.scanInbox(paused);
+		gmailApi.scanInbox(paused, listServerList);
 	}
 	
 	public void pause() {

@@ -24,7 +24,7 @@ public class RootLayoutController {
 		File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 		System.out.println("open file: " + file);
 		if (file != null) {
-			mainApp.loadWebsiteDataFromFile(file);
+			mainApp.loadListServerDataFromFile(file);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class RootLayoutController {
 		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
 		
 		if (file != null) {
-			mainApp.saveWebsiteDataToFile(file);
+			mainApp.saveListServerToFile(file);
 		}
 	}
 	

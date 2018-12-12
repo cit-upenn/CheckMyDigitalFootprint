@@ -1,5 +1,6 @@
 package checkmydigitalfootprint.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -8,9 +9,18 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.mail.Header;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,14 +30,23 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.batch.BatchRequest;
+import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
+import com.google.api.services.gmail.model.Message;
+
+import checkmydigitalfootprint.model.ListServer;
+import javafx.collections.ObservableList;
 
 public class GmailApi {
 	
@@ -41,13 +60,10 @@ public class GmailApi {
     private FileInputStream in;
     
     private Gmail service;
-    
-    private ArrayList<Email> emails;
-    
+        
 	public GmailApi(File file) {
 		
 		CREDENTIALS_FILE_PATH = file.getAbsolutePath();
-        emails = new ArrayList<Email>();
 
 	
 		try {
@@ -83,23 +99,65 @@ public class GmailApi {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 	
-	public void scanInbox(AtomicBoolean paused) {
+	public void scanInbox(AtomicBoolean paused, ObservableList<ListServer> listServerList) {
 		String user = "me";
 		
 		try {
-			ListMessagesResponse idList = service.users().messages().list(user).setQ("").execute();
 
-			String idsJson = idList.toString();
-			JSONObject jObj = new JSONObject(idsJson);
+			JsonBatchCallback<Message> batchCallback = new JsonBatchCallback<Message>() {
 
-			JSONArray jsonIds = jObj.getJSONArray("messages"); 
+				@Override
+				public void onSuccess(Message msg, HttpHeaders responseHeaders) throws IOException {
+					
+					Base64 base64Url = new Base64(true);
+					byte[] emailBytes = base64Url.decodeBase64(msg.getRaw());
+					
+					Properties props = new Properties();
+					Session session = Session.getDefaultInstance(props, null);
+					
+					try {
+						MimeMessage mail = new MimeMessage(session, new ByteArrayInputStream(emailBytes));						
+						
+						mail.getAllHeaderLines();
+						for (Enumeration<Header> e = mail.getAllHeaders(); e.hasMoreElements();) {
+						    Header h = e.nextElement();
+						
+						    if (h.getName().equals("List-Unsubscribe")) {
+//						    	System.out.println("from : " + InternetAddress.toUnicodeString(mail.getFrom()));
+						    	String fromHeader = InternetAddress.toUnicodeString(mail.getFrom());
+						    	String emailRegex = "(.*)(?:<)(?<=<)([\\w\\d-.]+@[\\w\\d.-]+)(?=>)";
+						    	
+						    	Pattern pattern = Pattern.compile(emailRegex);
+						    	Matcher matches = pattern.matcher(fromHeader);
 
+						    	if (matches.find()) {
+						    		String fromName = matches.group(1);
+						    		String fromEmail = matches.group(2);
+						    	}
+						    }
+						    
+						}
+						
+					} catch (MessagingException e1) {
+						e1.printStackTrace();
+					}
+				}
 
-			int tracker = 0;
+				@Override
+				public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
 
+				}
+			};
+
+			int totalEmailCount = service.users().getProfile(user).execute().getMessagesTotal();
+			
+			System.out.println("email count: " + totalEmailCount);
 			long start = System.currentTimeMillis();
-			for (int i = 0; i < jsonIds.length(); i++) {
-				
+			
+			ListMessagesResponse response = service.users().messages().list(user).execute();
+
+			while (response.getMessages() != null) {
+				BatchRequest batch = service.batch();
 				synchronized (paused) {
 					if (paused.get()) {
 						try {
@@ -108,28 +166,40 @@ public class GmailApi {
 							e.printStackTrace();
 						}
 					}
-				}				
-				tracker = i;
-				System.out.println(jsonIds.getJSONObject(i).getString("id"));
-				Email email = new Email(service.users().messages().get("me", jsonIds.getJSONObject(i).getString("id")).execute().toString());
-				emails.add(email);
-				System.out.println("tracker: " + i);
-			}
-			long finish = System.currentTimeMillis();
-			System.out.println(finish-start);
-			System.out.println(emails.size());
+				}
 
-			int counter = 0;
-			while (counter<emails.size()) {
-				System.out.println(emails.get(counter).getEmail());
-				counter++;
+				List<Message> messages = response.getMessages();
+				
+				for (Message message : messages) {
+					synchronized (paused) {
+						if (paused.get()) {
+							try {
+								paused.wait();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					service.users().messages().get(user, message.getId()).setFormat("raw").queue(batch, batchCallback);
+				}
+				batch.execute();
+				
+				if (response.getNextPageToken() != null) {
+					String pageToken = response.getNextPageToken();
+					response = service.users().messages().list(user).setPageToken(pageToken).execute();
+				} else {
+					break;
+				}
 			}
+			
+			long end = System.currentTimeMillis();
+			
+			System.out.println("Time elapsed to scan inbox: " + (end - start));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
-	
-	
 	
 }

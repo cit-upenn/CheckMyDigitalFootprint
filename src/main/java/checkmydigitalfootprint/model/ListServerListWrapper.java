@@ -7,20 +7,18 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "websites")
+@XmlRootElement(name = "listServers")
 @XmlAccessorType (XmlAccessType.FIELD)
-public class WebsiteListWrapper {
+public class ListServerListWrapper {
 	
-	@XmlElement(name = "website")
-	private List<Website> websites;
+	@XmlElement(name = "listServer")
+	private List<ListServer> listServers;
 	
-	
-	public List<Website> getWebsites() {
-		return websites;
+	public List<ListServer> getListServers() {
+		return listServers;
 	}
 	
-	public void setPersons(List<Website> websites) {
-		this.websites = websites;
+	public void setListServers(List<ListServer> listServers) {
+		this.listServers = listServers;
 	}
-	
 }
