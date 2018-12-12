@@ -21,8 +21,8 @@ dependencies {
 	compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.1'
 	compile 'com.sun.activation:javax.activation:1.2.0'  
 	compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
-	
-	
+	testCompile "org.testfx:testfx-core:4.0.15-alpha"
+	testCompile "org.testfx:testfx-junit:4.0.15-alpha"
 }
 
 javafx {
