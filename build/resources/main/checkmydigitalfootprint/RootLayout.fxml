@@ -11,10 +11,10 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save As" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleAddCredentials" text="Add Credentials" />
+                  <MenuItem id="open" mnemonicParsing="false" onAction="#handleOpen" text="Open" />
+                  <MenuItem id="save" mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                  <MenuItem id="save-as" mnemonicParsing="false" onAction="#handleSaveAs" text="Save As" />
+                  <MenuItem id="add-credentials" mnemonicParsing="false" onAction="#handleAddCredentials" text="Add Credentials" />
             </items>
           </Menu>
         </menus>

@@ -64,10 +64,7 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("MyDigitalFootprint");
 		System.out.println("Starting..");
 		initRootLayout();
-		showListServerOverview();
-		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		prefs.remove("listServerFilePath");
-		
+		showListServerOverview();	
 	}
 	
 	public void initRootLayout() {

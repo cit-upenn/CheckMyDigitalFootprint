@@ -14,14 +14,14 @@
          <children>
             <Pane id="file-upload-box" fx:id="pane" layoutX="78.0" layoutY="38.0" prefHeight="209.0" prefWidth="240.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <Text fx:id="uploadText" fill="#0000006e" layoutX="55.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drag and drop credentials.json file here" textAlignment="CENTER" wrappingWidth="130.0">
+                  <Text id="drag-text" fx:id="uploadText" fill="#0000006e" layoutX="55.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drag and drop credentials.json file here" textAlignment="CENTER" wrappingWidth="130.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
                </children>
             </Pane>
-            <JFXButton layoutX="102.0" layoutY="246.0" onAction="#handleAddCredentials" text="Attach File">
+            <JFXButton id="attach-file-btn" layoutX="102.0" layoutY="246.0" onAction="#handleAddCredentials" text="Attach File">
                <font>
                   <Font size="24.0" />
                </font>
@@ -32,7 +32,7 @@
          <children>
             <Label id="intro-header" layoutX="43.0" layoutY="82.0" text="CheckMyDigitalFootprint" />
             <Text fill="WHITE" layoutX="48.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To get started please follow this guide to enable the Gmail API and download a credentials.json file:" wrappingWidth="204.0000067949295" />
-            <Hyperlink layoutX="116.0" layoutY="200.0" text="Gmail API" textAlignment="CENTER" underline="true" />
+            <Hyperlink id="gmail-api" layoutX="116.0" layoutY="200.0" text="Gmail API" textAlignment="CENTER" underline="true" />
             <Text id="disclaimer-text" fill="WHITE" layoutX="38.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We will NOT steal your data. Hence why you must provide your own API key :)" textAlignment="CENTER" wrappingWidth="224.384033203125" />
          </children>
       </AnchorPane>
