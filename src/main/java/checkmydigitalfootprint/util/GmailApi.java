@@ -47,6 +47,7 @@ import com.google.api.services.gmail.model.Message;
 
 import checkmydigitalfootprint.model.ListServer;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 public class GmailApi {
 	
@@ -99,7 +100,7 @@ public class GmailApi {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 	
-	public void scanInbox(AtomicBoolean paused, ObservableList<ListServer> listServerList) {
+	public void scanInbox(AtomicBoolean paused, ObservableList<ListServer> listServerList, ObservableMap<String, ListServer> listServerMap) {
 		String user = "me";
 		
 		try {
@@ -131,8 +132,16 @@ public class GmailApi {
 						    	Matcher matches = pattern.matcher(fromHeader);
 
 						    	if (matches.find()) {
-						    		String fromName = matches.group(1);
-						    		String fromEmail = matches.group(2);
+						    		String fromName = matches.group(1).trim();
+						    		String fromEmail = matches.group(2).trim();
+						    		
+						    		ListServer listServer = new ListServer(fromName, fromEmail);
+						    		
+						    		if (listServerMap.get(fromEmail) == null) {
+						    			System.out.println("Entry added: " + fromName + ", " + fromEmail);
+						    			listServerList.add(listServer);
+						    			listServerMap.put(fromEmail, listServer);
+						    		}
 						    	}
 						    }
 						    

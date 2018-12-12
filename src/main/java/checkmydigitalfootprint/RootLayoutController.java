@@ -29,6 +29,16 @@ public class RootLayoutController {
 	}
 	
 	@FXML
+	private void handleSave() {
+		File listServerFile = mainApp.getListServerFilePath();
+		if (listServerFile != null) {
+			mainApp.saveListServerToFile(listServerFile);
+		} else {
+			handleSaveAs();
+		}
+	}
+	
+	@FXML
 	private void handleSaveAs() {
 		FileChooser fileChooser = new FileChooser();
 		
@@ -39,6 +49,7 @@ public class RootLayoutController {
 		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
 		
 		if (file != null) {
+			System.out.println("Saving to... : " + file.getAbsolutePath());
 			mainApp.saveListServerToFile(file);
 		}
 	}

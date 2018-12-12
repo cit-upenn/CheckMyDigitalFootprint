@@ -47,8 +47,6 @@ public class MainApp extends Application {
 	ObservableMap<String, ListServer> listServerMap = FXCollections.observableHashMap();
 	
 	public MainApp() {
-		listServerList.add(new ListServer("Linkedin", "www.linkedin.com"));
-		listServerList.add(new ListServer("Facebook", "www.facebook.com"));
 //		listServerMap.put("Linkedin", new ListServer("Linkedin", "www.linkedin.com"));
 	}
 	
@@ -99,10 +97,11 @@ public class MainApp extends Application {
 			showLoadCredentialsWindow();
 		}
 		
-		File websiteFile = getWebsiteFilePath();
-		if (websiteFile != null) {
-			loadListServerDataFromFile(websiteFile);
-		} 
+		File listServerFile = getListServerFilePath();
+		System.out.println("Loading from file...: " + listServerFile);
+		if (listServerFile != null) {
+			loadListServerDataFromFile(listServerFile);
+		}
 	}
 	
 	public void showListServerOverview() {
@@ -181,6 +180,11 @@ public class MainApp extends Application {
 			ListServerListWrapper wrapper = (ListServerListWrapper) um.unmarshal(file);
 			listServerList.clear();
 			listServerList.addAll(wrapper.getListServers());
+			
+			for (ListServer listServer : wrapper.getListServers()) {
+				String email = listServer.getEmail();
+				listServerMap.put(email,  listServer);
+			}
 			setListServerFilePath(file);
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -227,9 +231,9 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public File getWebsiteFilePath() {
+	public File getListServerFilePath() {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		String filePath = prefs.get("websiteFilePath",  null);
+		String filePath = prefs.get("listServerFilePath",  null);
 		if (filePath != null) {
 			return new File(filePath);
 		} else {
@@ -238,7 +242,7 @@ public class MainApp extends Application {
 	}
 	
 	public void handleScanInbox(AtomicBoolean paused) {
-		gmailApi.scanInbox(paused, listServerList);
+		gmailApi.scanInbox(paused, listServerList, listServerMap);
 	}
 	
 	public void pause() {
