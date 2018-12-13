@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="bin/main" path="src/main/java">
-		<attributes>
-			<attribute name="gradle_scope" value="main"/>
-			<attribute name="gradle_used_by_scope" value="main,test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="bin/test" path="src/test/java">
-		<attributes>
-			<attribute name="gradle_scope" value="test"/>
-			<attribute name="gradle_used_by_scope" value="test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="bin/main" path="src/main/resources">
-		<attributes>
-			<attribute name="gradle_scope" value="main"/>
-			<attribute name="gradle_used_by_scope" value="main,test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11/">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/FastInfoset-1.2.15.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/FinalJavaProject.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/google-api-client-1.23.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/google-api-services-gmail-v1-rev83-1.23.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/google-http-client-1.23.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/google-http-client-jackson2-1.23.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/google-oauth-client-1.23.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/google-oauth-client-java6-1.23.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/google-oauth-client-jetty-1.23.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/guava-jdk5-17.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/httpclient-4.0.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/istack-commons-runtime-3.0.7.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/jackson-core-2.1.3.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javafx-base-11.0.1-mac.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javafx-base-11.0.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javafx-controls-11.0.1-mac.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javafx-controls-11.0.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javafx-fxml-11.0.1-mac.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javafx-graphics-11.0.1-mac.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javafx-graphics-11.0.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javax.activation-1.2.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javax.activation-api-1.2.0.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/javax.mail-1.6.2.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/jaxb-api-2.3.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/jaxb-runtime-2.3.1.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/jetty-6.1.26.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/jetty-util-6.1.26.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/jfoenix-9.0.8.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/json-20180813.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/jsr305-1.3.9.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/servlet-api-2.5-20081211.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/stax-ex-1.8.jar"/>
+	<classpathentry kind="lib" path="build/distributions/FinalJavaProject/lib/txw2-2.3.1.jar"/>
+	<classpathentry kind="lib" path="build/libs/FinalJavaProject.jar"/>
+	<classpathentry kind="lib" path="build/libs/foo-null.jar"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
