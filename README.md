@@ -32,7 +32,7 @@ Please ensure you have the following:
 
 In the root there is an executable jar: `CheckMyDigitalFootprint.jar`.
 
-Choose the right .jar for your OS and run with the following command:
+Then run with the following command:
 
 ```
 java --module-path="<PATH-TO-JAVAFX-SDK-LIB-FOLDER>/javafx-sdk-11.0.1/lib" \
@@ -84,7 +84,7 @@ Then right click project folder again and click on `Configure > Add Gradle Natur
 One last step before you run the application: goto `Run > Run Configurations > Arguments` and under `VM Arguments` paste in the following ensuring that you copy in your own JavaFX11 SDK jar path:
 
 ```
---module-path="/users/joseph/eclipse-workspace/javafx-sdk-11.0.1/lib" \
+--module-path="<PATH_TO_JAVAFX_11_SDK>/javafx-sdk-11.0.1/lib" \
 --add-modules=javafx.controls \
 --add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED \
 --add-exports=javafx.base/com.sun.javafx.reflect=ALL-UNNAMED \
