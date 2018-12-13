@@ -1,0 +1,156 @@
+
+
+* {
+    -fx-primary : #6d1b7b;
+    -fx-secondary : #9c27b0;
+    -fx-tertiary: #af52bf;
+    -fx-lightgray: #f2f2f2;
+    -fx-primarytext : #fff;
+    -fx-secondarytext: #000;
+    -fx-blue: #1976D2;
+    -fx-red: #FF0000;
+    -fx-color-1:#1976D2;
+     -fx-font-family: Helvetica;
+}
+
+.root{
+    -fx-background-color: #fff;
+   
+}
+
+.split-pane{
+	-fx-background-color: #fff;
+	-fx-border-color: black;
+	-fx-border-width: 0;
+}
+
+.anchor-pane {
+	-fx-border-color: black;
+	-fx-padding: 0;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: transparent, derive(black,10%);
+    -fx-border-color: transparent black transparent black;
+    -fx-box-border: transparent;
+    -fx-padding: 0 0.001em 0 0.001em;
+}
+
+.border-pane {
+	-fx-border-color: -fx-primary;
+}
+
+#intro-box {
+	-fx-background-color: -fx-primary;
+}
+
+#file-upload-box {
+	-fx-background-color: -fx-lightgray;
+}
+
+#header-box {
+	-fx-background-color: -fx-primary;
+	-fx-border-width: 0 0 2px 0;
+	-fx-border-color: black;
+	-fx-alignment: center;
+}
+
+.label {
+	-fx-text-fill: -fx-primarytext;
+	-fx-alignment: center;
+}
+
+#intro-header {
+	-fx-font-size: 18px;
+	-fx-font-weight: bold;
+}
+
+#disclaimer-text{
+	-fx-font-size: 10px;
+}
+
+.button{
+    -fx-text-fill: -fx-primarytext;
+    -fx-background-color: -fx-primary;
+    -fx-font-size: 12pt;
+    -fx-padding: 10px;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-effect: dropshadow(three-pass-box, derive(#1d1d1d, -5%), 5, 0, 2, 2);
+}
+
+.button:hover, .button:focused{
+    -fx-border-color: -fx-tertiary;
+    -fx-background-color: -fx-tertiary;
+    -fx-text-fill: -fx-primarytext;
+}
+
+.text-field
+{
+    -fx-text-fill: -fx-primarytext;
+    -fx-font-size : 12pt;
+    -jfx-focus-color: -fx-secondary;
+    -fx-text-fill: derive(-fx-secondary, 20%);
+}
+
+.jfx-list-view {
+	-fx-border-color: #fff;
+}
+
+.list-cell:even {
+	-fx-background-color: #fff;
+}
+
+.list-cell:even:hover {
+	-fx-background-color: -fx-tertiary;
+}
+
+.list-cell:odd {
+	-fx-background-color: #fff;
+}
+
+.list-cell:odd:hover {
+	-fx-background-color: -fx-tertiary;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: linear-gradient(#a616bf 0%, #b126c9 25%, #9941a8 75%, #8a09a0 100%);
+    -fx-text-fill: white;
+}
+
+.list-cell:filled:hover {
+    -fx-cell-hover-color: #0093ff;
+    -fx-text-fill: white;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb{
+    -fx-background-color: derive(-fx-primary, 60%);
+    -fx-border-color: transparent;
+    -fx-background-radius: 5em;
+}
+
+.menu-bar {
+    -fx-background-color: derive(#1d1d1d,20%);
+    -border-width: 0;
+}
+
+.context-menu {
+    -fx-background-color: derive(#1d1d1d,50%);
+}
+
+/*Progrss bar*/
+
+.progress-bar-main .track{
+    -fx-background-color: -fx-primary;
+}
+.progress-bar-main .bar{
+    -fx-background-color: -fx-secondary;
+    -fx-padding: 5px;
+}
+
+.common-label{
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-secondary;
+    -fx-font-size: 12pt;
+}
