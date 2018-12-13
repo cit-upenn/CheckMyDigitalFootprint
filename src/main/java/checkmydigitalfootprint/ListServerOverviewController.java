@@ -7,13 +7,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 
 import checkmydigitalfootprint.model.ListServer;
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Pane;
@@ -21,6 +19,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
 
+/**
+ * Controls list control (keep and discard)
+ * @author CheckMyDigitalFootprint
+ *
+ */
 public class ListServerOverviewController {
 	
 	
@@ -58,10 +61,9 @@ public class ListServerOverviewController {
 	private Thread thread;
 		
 
-	public ListServerOverviewController() {
-		
-	}
-	
+	/**
+	 * Initializes event listeners to listviews when listcells and selected
+	 */
 	public void initialize() {
 		
 		deleteListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showListServerDetails(newValue));
@@ -69,6 +71,10 @@ public class ListServerOverviewController {
 
 	}
 	
+	/**
+	 * Shows details about selected listserver
+	 * @param listServer is selected listserver
+	 */
 	private void showListServerDetails(ListServer listServer) {	
 		if (listServer != null) {
 			VBox vBox = new VBox();
@@ -92,6 +98,11 @@ public class ListServerOverviewController {
 		}
 	}
 	
+	/**
+	 * Connects controller to MainApp and creates 2 filtered lists: deleteList and keepList
+	 * from master list of listservers in MainApp
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	
@@ -128,16 +139,25 @@ public class ListServerOverviewController {
 		pauseButton.visibleProperty().bind(isScanning);
 	}
 	
+	/**
+	 * Initializes keep list and updates corresponding list view
+	 */
 	private void wrapKeepList() {
 		keepList = new FilteredList<>(mainApp.getListServerList(), p -> p.getKeep());
 		keepListView.setItems(keepList);
 	}
 	
+	/**
+	 * Initializes delete list and updates corresponding list view
+	 */
 	private void wrapDeleteList() {
 		deleteList = new FilteredList<>(mainApp.getListServerList(), p -> !p.getKeep());
 		deleteListView.setItems(deleteList);
 	}
 	
+	/**
+	 * Moves selected listserver to keep list
+	 */
 	@FXML
 	public void moveKeep() {
 		if (deleteListView.getSelectionModel().getSelectedItem() != null) {
@@ -148,6 +168,9 @@ public class ListServerOverviewController {
 		}
 	}
 	
+	/**
+	 * Moves selected listserver to delete list
+	 */
 	@FXML
 	public void moveDelete() {
 		if (keepListView.getSelectionModel().getSelectedItem() != null) {
@@ -158,6 +181,9 @@ public class ListServerOverviewController {
 		}
 	}
 	
+	/**
+	 * Scans inbox
+	 */
 	@FXML
 	public void handleScanInbox() {
 		isScanning.set(true);
@@ -181,11 +207,12 @@ public class ListServerOverviewController {
 						
 	}
 	
+	/**
+	 * Pauses scanning
+	 */
 	@FXML
 	public void handlePauseScanInbox() {
 		paused.compareAndSet(false,  true);
 		isScanning.set(false);
-		
 	}
-	
 }

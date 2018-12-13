@@ -5,14 +5,26 @@ import java.io.File;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 
+/**
+ * Open, save, and save as for file
+ * @author CheckMyDigitalFootprint
+ *
+ */
 public class RootLayoutController {
 	
 	private MainApp mainApp;
 	
+	/**
+	 * Connects controller to MainApp
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
 	
+	/**
+	 * Open XML file
+	 */
 	@FXML
 	private void handleOpen() {
 		FileChooser fileChooser = new FileChooser();
@@ -28,6 +40,9 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**
+	 * Saves XML file
+	 */
 	@FXML
 	private void handleSave() {
 		File listServerFile = mainApp.getListServerFilePath();
@@ -38,6 +53,9 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**
+	 * Save as XML file
+	 */
 	@FXML
 	private void handleSaveAs() {
 		FileChooser fileChooser = new FileChooser();
@@ -54,6 +72,9 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**
+	 * Add user credentials
+	 */
 	@FXML
 	private void handleAddCredentials() {
 		

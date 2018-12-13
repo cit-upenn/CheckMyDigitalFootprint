@@ -20,6 +20,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
+/**
+ * Test for RootLayoutController
+ * @author Joseph
+ *
+ */
 public class RootLayoutControllerTest extends ApplicationTest {
 	
 	Parent parent;

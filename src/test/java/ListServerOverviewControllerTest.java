@@ -27,6 +27,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Test for ListServerOverviewController
+ * @author Joseph
+ *
+ */
 public class ListServerOverviewControllerTest extends ApplicationTest {
 	
 	Parent parent;

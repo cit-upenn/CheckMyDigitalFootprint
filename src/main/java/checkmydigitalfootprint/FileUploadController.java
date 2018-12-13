@@ -11,6 +11,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
+/**
+ * Controls the JavaFX file upload process
+ * @author CheckMyDigitalFootprint
+ *
+ */
 public class FileUploadController {
 	
 	private MainApp mainApp;
@@ -21,6 +26,9 @@ public class FileUploadController {
 	@FXML
 	private Text uploadText;
 	
+	/**
+	 * Control over drag effects
+	 */
 	@FXML
 	private void initialize() {
 
@@ -57,11 +65,9 @@ public class FileUploadController {
 		});
 	}
 	
-	public FileUploadController() {
-		
-	}
-	
-	
+	/**
+	 * Adds user credentials
+	 */
 	@FXML
 	public void handleAddCredentials() {
 		
@@ -78,6 +84,10 @@ public class FileUploadController {
 		}
 	}
 	
+	/**
+	 * Triggers style change to pane when mouse dragged over
+	 * @param e is drag event
+	 */
 	private void mouseDragOver(DragEvent e) {
 		Dragboard db = e.getDragboard();
 		
@@ -94,9 +104,12 @@ public class FileUploadController {
 		}
 	}
 	
+	/**
+	 * Loads credential files when mouse dragged is dropped in pane
+	 * @param e is drag event
+	 */
 	private void mouseDragDropped(DragEvent e) {
 		Dragboard db = e.getDragboard();
-		System.out.println("dropped");
 		
 		if (db.hasFiles()) {
 			
@@ -110,6 +123,10 @@ public class FileUploadController {
 		}
 	}
 	
+	/**
+	 * Connects controller to MainApp
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}

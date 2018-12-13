@@ -3,7 +3,6 @@ package checkmydigitalfootprint.util;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
@@ -46,6 +45,11 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+/**
+ * Class that connects, credentializes Gmail access and scans inbox
+ * @author CheckMyDigitalFootprint
+ *
+ */
 public class GmailApi {
 	
 	private final String APPLICATION_NAME = "Gmail API Java Quickstart";
@@ -58,15 +62,20 @@ public class GmailApi {
     private FileInputStream in;
     
     private Gmail service;
+    
+    private ObservableList<ListServer> listServerList;
+    private ObservableMap<String, ListServer> listServerMap;
         
+    /**
+     * Authorizes Gmail access with API key
+     * @param file is credentials.json file
+     */
 	public GmailApi(File file) {
 		
 		CREDENTIALS_FILE_PATH = file.getAbsolutePath();
 
-	
 		try {
 			final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-			FileReader reader = new FileReader(file);
 			in = new FileInputStream(CREDENTIALS_FILE_PATH);
 			
 			service = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
@@ -81,6 +90,12 @@ public class GmailApi {
 		
 	}
 	
+	/**
+	 * Gets credentials 
+	 * @param HTTP_TRANSPORT
+	 * @return
+	 * @throws IOException
+	 */
 	private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
     
@@ -97,72 +112,18 @@ public class GmailApi {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 	
+	/**
+	 * Scans inbox and adds emails to list of listservers
+	 * @param paused is atomic boolean to pause scanning
+	 * @param listServerList is ObservableList for display of listserver
+	 * @param listServerMap is ObservableMap for fast lookup of listservers
+	 */
 	public void scanInbox(AtomicBoolean paused, ObservableList<ListServer> listServerList, ObservableMap<String, ListServer> listServerMap) {
 		String user = "me";
 		
+		this.listServerList = listServerList;
+		this.listServerMap = listServerMap;
 		try {
-
-			JsonBatchCallback<Message> batchCallback = new JsonBatchCallback<Message>() {
-
-				@Override
-				public void onSuccess(Message msg, HttpHeaders responseHeaders) throws IOException {
-					
-					Base64 base64Url = new Base64(true);
-					byte[] emailBytes = base64Url.decodeBase64(msg.getRaw());
-					
-					Properties props = new Properties();
-					Session session = Session.getDefaultInstance(props, null);
-					
-					try {
-						MimeMessage mail = new MimeMessage(session, new ByteArrayInputStream(emailBytes));						
-						
-						mail.getAllHeaderLines();
-						for (Enumeration<Header> e = mail.getAllHeaders(); e.hasMoreElements();) {
-						    Header h = e.nextElement();
-						
-						    if (h.getName().equals("List-Unsubscribe")) {
-//						    	System.out.println("from : " + InternetAddress.toUnicodeString(mail.getFrom()));
-						    	String fromHeader = InternetAddress.toUnicodeString(mail.getFrom());
-						    	String emailRegex = "(.*)(?:<)(?<=<)([\\w\\d-.]+@[\\w\\d.-]+)(?=>)";
-						    	
-						    	Pattern pattern = Pattern.compile(emailRegex);
-						    	Matcher matches = pattern.matcher(fromHeader);
-
-						    	if (matches.find()) {
-						    		String fromName = matches.group(1).trim();
-						    		String fromEmail = matches.group(2).trim();
-						    		
-						    		ListServer listServer = new ListServer(fromName, fromEmail);
-						    		
-						    		if (listServerMap.get(fromEmail) == null) {
-						    			System.out.println("Entry added: " + fromName + ", " + fromEmail);
-						    			
-						    			Platform.runLater(new Runnable() {
-
-											@Override
-											public void run() {
-												listServerList.add(listServer);
-								    			listServerMap.put(fromEmail, listServer);
-											}
-						    				
-						    			});
-						    			
-						    		}
-						    	}
-						    }
-						    
-						}
-						
-					} catch (MessagingException e1) {
-						e1.printStackTrace();
-					}
-				}
-
-				@Override
-				public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
-					System.out.println("Parse email failed: " + e);
-				}
-			};
 
 			int totalEmailCount = service.users().getProfile(user).execute().getMessagesTotal();
 			
@@ -170,7 +131,8 @@ public class GmailApi {
 			long start = System.currentTimeMillis();
 			
 			ListMessagesResponse response = service.users().messages().list(user).execute();
-
+			
+			// Retrives emails in batches of 100
 			while (response.getMessages() != null) {
 				BatchRequest batch = service.batch();
 				synchronized (paused) {
@@ -185,6 +147,7 @@ public class GmailApi {
 
 				List<Message> messages = response.getMessages();
 				
+				// Loops through every batch of emails and calls batchCallback
 				for (Message message : messages) {
 					synchronized (paused) {
 						if (paused.get()) {
@@ -195,7 +158,7 @@ public class GmailApi {
 							}
 						}
 					}
-					service.users().messages().get(user, message.getId()).setFormat("raw").queue(batch, batchCallback);
+					service.users().messages().get(user, message.getId()).setFormat("raw").queue(batch, batchCallback());
 				}
 				batch.execute();
 				
@@ -215,6 +178,75 @@ public class GmailApi {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * Called everytime a batch is executed. Decodes individual email messages from Base64 
+	 * and parses "From" and "List-Unsubscribe" headers and then adds to ObservableList and ObservableMap
+	 * @return JsonBatchCallback
+	 */
+	private JsonBatchCallback<Message> batchCallback () {
+		return new JsonBatchCallback<Message>() {
+
+			@Override
+			public void onSuccess(Message msg, HttpHeaders responseHeaders) throws IOException {
+				
+				Base64 base64Url = new Base64(true);
+				byte[] emailBytes = base64Url.decodeBase64(msg.getRaw());
+				
+				Properties props = new Properties();
+				Session session = Session.getDefaultInstance(props, null);
+				
+				try {
+					MimeMessage mail = new MimeMessage(session, new ByteArrayInputStream(emailBytes));						
+					
+					mail.getAllHeaderLines();
+					for (Enumeration<Header> e = mail.getAllHeaders(); e.hasMoreElements();) {
+					    Header h = e.nextElement();
+					
+					    if (h.getName().equals("List-Unsubscribe")) {
+					    	String fromHeader = InternetAddress.toUnicodeString(mail.getFrom());
+					    	String emailRegex = "(.*)(?:<)(?<=<)([\\w\\d-.]+@[\\w\\d.-]+)(?=>)";
+					    	
+					    	Pattern pattern = Pattern.compile(emailRegex);
+					    	Matcher matches = pattern.matcher(fromHeader);
+
+					    	if (matches.find()) {
+					    		String fromName = matches.group(1).trim();
+					    		String fromEmail = matches.group(2).trim();
+					    		
+					    		ListServer listServer = new ListServer(fromName, fromEmail);
+					    		
+					    		if (listServerMap.get(fromEmail) == null) {
+					    			System.out.println("Entry added: " + fromName + ", " + fromEmail);
+					    			
+					    			Platform.runLater(new Runnable() {
+
+										@Override
+										public void run() {
+											listServerList.add(listServer);
+							    			listServerMap.put(fromEmail, listServer);
+										}
+					    				
+					    			});
+					    			
+					    		}
+					    	}
+					    }
+					    
+					}
+					
+				} catch (MessagingException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
+				System.out.println("Parse email failed: " + e);
+			}
+		};
+
 	}
 	
 }

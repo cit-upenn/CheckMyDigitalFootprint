@@ -4,7 +4,7 @@
 
 CheckMyDigitalFootprint is an application that allows a user to regulate the email services they have subscribed to, preventing unwanted emails and clutter from rendering their inbox unusable.
 
-CheckMyDigitalFootprint works by using the Gmail API to search through a users emails. Emails that are scanned as "subscription" are then parsed for sender, loaded into the application, and designated as "keep" or "discard" based on the users preference. This is done through parsing the raw email data the Gmail API returns which includes a "From" header and a "List-Subscribed" header. Only emails that include the unsubscribe option at the bottom of the email will have the "List-Subscribed" field. Parsing of emails was decoded using base64url encoding.
+CheckMyDigitalFootprint works by using the Gmail API to search through a users emails. Emails that are scanned as "subscription" are then parsed for sender, loaded into the application, and designated as "keep" or "discard" based on the users preference. This is done through parsing the raw email data the Gmail API returns which includes a "From" header and a "List-Unsubscribe" header. Only emails that include the unsubscribe option at the bottom of the email will have the "List-Unsubscribe" field. Parsing of emails was decoded using base64url encoding.
 
 ## Features
 

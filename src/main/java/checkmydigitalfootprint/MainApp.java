@@ -28,15 +28,22 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 
-
+/**
+ * Main controller of application
+ * @author CheckMyDigitalFootprint
+ *
+ */
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private Stage fileUploadStage;
 	private GmailApi gmailApi;
-	private final AtomicBoolean paused = new AtomicBoolean(false);
 	
+	
+	/**
+	 * All listservers added to the list, which are then filtered to be displayed in listviews
+	 */
 	ObservableList<ListServer> listServerList = FXCollections.observableArrayList(new Callback<ListServer, Observable[]>() {
 		@Override
 		public Observable[] call(ListServer param) {
@@ -44,16 +51,22 @@ public class MainApp extends Application {
 		}
 	});
 	
+	/**
+	 * Map of all listservers that acts as a lookup table when deciding to add new listserver or not
+	 */
 	ObservableMap<String, ListServer> listServerMap = FXCollections.observableHashMap();
 	
-	public MainApp() {
-
-	}
 	
+	/**
+	 * @return list of listservers
+	 */
 	public ObservableList<ListServer> getListServerList() {
 		return listServerList;
 	}
 	
+	/**
+	 * @return map of listservers
+	 */
 	public ObservableMap<String, ListServer> getListServerMap() {
 		return listServerMap;
 	}
@@ -70,6 +83,10 @@ public class MainApp extends Application {
 		prefs.remove("listServerFilePath");
 	}
 	
+	/**
+	 * Makes the menu bar, loads any saved file paths 
+	 * and shows credential file dialog if no previous credential file is remembered
+	 */
 	public void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -104,6 +121,9 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Shows list server overview
+	 */
 	public void showListServerOverview() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -119,6 +139,9 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Prompts user to enter credentials
+	 */
 	public void showLoadCredentialsWindow() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -142,6 +165,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Sets the file path for set user credentials
+	 * @param file is credentials.json file
+	 */
 	public void setCredentialsFilePath(File file) {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		if (file != null) {
@@ -151,6 +178,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Sets the file path to get users credentials
+	 * @return credentials file if exists, else return null
+	 */
 	public File getCredentialsFilePath() {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		String filePath = prefs.get("credentialsFilePath",  null);
@@ -161,6 +192,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Loads users credentials
+	 * @param file is credentials file
+	 */
 	public void loadCredentialsFromFile(File file) {
 		gmailApi = new GmailApi(file);
 		
@@ -171,6 +206,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Loads the file with user data
+	 * @param file is XML file with all listserver data
+	 */
 	public void loadListServerDataFromFile(File file) {
 		
 		try {
@@ -196,6 +235,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Saves the user data to a file
+	 * @param file is XML file to save listserver data to
+	 */
 	public void saveListServerToFile(File file) {
 		
 		try {
@@ -222,6 +265,10 @@ public class MainApp extends Application {
 		
 	}
 	
+	/**
+	 * Sets the file path to the user file
+	 * @param file is XML file of listserver data
+	 */
 	public void setListServerFilePath(File file) {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		if (file != null) {
@@ -231,6 +278,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Gets the file path for the listserver XML file
+	 * @return XML file if exists, else null
+	 */
 	public File getListServerFilePath() {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		String filePath = prefs.get("listServerFilePath",  null);
@@ -241,27 +292,26 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Scans inbox feature
+	 * @param paused is boolean that pauses method when true
+	 */
 	public void handleScanInbox(AtomicBoolean paused) {
 		gmailApi.scanInbox(paused, listServerList, listServerMap);
 	}
-	
-	public void pause() {
-		paused.compareAndSet(false, true);
-	}
-	
-	public void resume() {
-		synchronized(paused) {
-			if (paused.get()) {
-				paused.set(false);
-				paused.notify();
-			}
-		}
-	}
-	
+
+	/**
+	 * 
+	 * @return primary stage of application screen
+	 */
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
-
+	
+	/**
+	 * Main method to launch application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
