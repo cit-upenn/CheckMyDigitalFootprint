@@ -10,9 +10,9 @@ repositories {
 
 dependencies {
     /* uncomment for cross-platform jar: */
-//    compile "org.openjfx:javafx-graphics:11:win"
-//    compile "org.openjfx:javafx-graphics:11:linux"
-//    compile "org.openjfx:javafx-graphics:11:mac"
+    compile "org.openjfx:javafx-graphics:11:win"
+    compile "org.openjfx:javafx-graphics:11:linux"
+    compile "org.openjfx:javafx-graphics:11:mac"
 	compile 'com.jfoenix:jfoenix:9.0.8'
     compile 'org.json:json:20180813'
     compile 'com.google.api-client:google-api-client:1.23.0'

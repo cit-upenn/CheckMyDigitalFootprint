@@ -22,7 +22,6 @@ To ensure further optimization, all data is also loaded into an ObservableMap (J
 A user will load the application, allow the Gmail API to access their email account and press scan. There are pause and resume buttons which allow the user to interact with the scanning process. Emails that are designated as subscription will be parsed by the application for the sender and that sender will be loaded into the application where the user can designate them as keep or discard. Save and load buttons allow the user to keep authorization credentials.
 
 ### Setup
-=========
 
 Please ensure you have the following:
 * [Java 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
@@ -45,7 +44,6 @@ gradle run
 ```
 
 #### Setup for Eclipse
-======================
 
 Additional setup is required for Eclipse. Ensure that the following are installed:
 * [Eclipse 4.9](https://www.eclipse.org/)
@@ -77,8 +75,13 @@ One last step before you run the application: goto `Run > Run Configurations > A
 
 Finally you will be able to get the application running! (If you haven't noticed it's much easier to just use Gradle ;))
 
+
+#### Testing
+
+All tests utilize the TestFX framework. They can be found under `src/main/test`.
+
+
 #### Gmail API Key Setup
-========================
 
 On first load of the application you will be prompted to upload a Gmail API key. This is to give you a peace of mind that we're not out to steal your data in any way or form!
 
@@ -86,7 +89,6 @@ Gmail API keys can be downloaded as a `credentials.json` file. It will require y
 
 
 #### Scanning your inbox
-========================
 
 Once your API key is loaded you're ready to start scanning. Simply press the big purple "Scan" button and start scanning away! All listserver email addresses automatically goto the "Delete List", but you may choose to decide to keep some. If so, simply click on the cell and move to the keep list.
 
