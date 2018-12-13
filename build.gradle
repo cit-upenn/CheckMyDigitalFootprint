@@ -36,17 +36,15 @@ run {
     }
 }
 
-task fatJar(type: Jar, dependsOn: ["compileJava"]) {
-    from "$buildDir/classes/java/main"
-
-    archiveName = "foo-${version}.jar"
+jar {
     manifest {
         attributes(
-                "Main-Class": "com.example.foo.Foo"
+                'Main-Class': 'checkmydigitalfootprint.MainApp'
         )
     }
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-}
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+ }
 
 mainClassName = 'checkmydigitalfootprint.MainApp'
