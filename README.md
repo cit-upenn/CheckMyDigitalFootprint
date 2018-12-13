@@ -1,6 +1,6 @@
 # CheckMyDigitalFootprint
 
-![GIF](https://github.com/cit-upenn/CheckMyDigitalFootprint/checkmydigitalfootprint.gif)
+![GIF](https://github.com/cit-upenn/CheckMyDigitalFootprint/blob/master/img/checkmydigitalfootprint.gif)
 
 CheckMyDigitalFootprint is an application that allows a user to regulate the email services they have subscribed to, preventing unwanted emails and clutter from rendering their inbox unusable.
 
