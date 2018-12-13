@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     /* uncomment for cross-platform jar: */
-//    compile "org.openjfx:javafx-graphics:11:win"
+    compile "org.openjfx:javafx-graphics:11:win"
 //    compile "org.openjfx:javafx-graphics:11:linux"
     compile "org.openjfx:javafx-graphics:11:mac"
 	compile 'com.jfoenix:jfoenix:9.0.8'

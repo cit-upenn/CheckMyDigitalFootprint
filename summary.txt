@@ -159,15 +159,5 @@ restart again the next time you reload the app.
 Enjoy!
 
 
-Work Breakdown
---------------
-
-Joseph Liu
-- JavaFX controller and model classes
-- Styling and layout of components
-- Setting up XML data storage
-- TestFX visible component test cases
-- Parts of email parsing 
-
 
 

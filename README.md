@@ -17,16 +17,36 @@ Batch requesting was an additional feature which was necessary for our applicati
 To ensure further optimization, all data is also loaded into an ObservableMap (JavaFX's equivalent of HashMap) upon starting the application that acts as a lookup table. When the application then scans through your inbox it checks to see if the listserv already exists in the data store without having to iterate through an entire List.
 
 
-## User Manual
+# User Manual
 
 A user will load the application, allow the Gmail API to access their email account and press scan. There are pause and resume buttons which allow the user to interact with the scanning process. Emails that are designated as subscription will be parsed by the application for the sender and that sender will be loaded into the application where the user can designate them as keep or discard. Save and load buttons allow the user to keep authorization credentials.
 
-### Setup
+## Setup
 
 Please ensure you have the following:
 * [Java 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
 * [JavaFX 11](https://openjfx.io/)
 * [Gradle 5.0](https://gradle.org/)
+
+### Run Executable .jar
+
+In the root there is an executable jar: `CheckMyDigitalFootprint.jar`.
+
+Choose the right .jar for your OS and run with the following command:
+
+```
+java --module-path="<PATH-TO-JAVAFX-SDK-LIB-FOLDER>/javafx-sdk-11.0.1/lib" \
+--add-modules=javafx.controls \
+--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED \
+--add-exports=javafx.base/com.sun.javafx.reflect=ALL-UNNAMED \
+--add-exports=javafx.base/com.sun.javafx.beans=ALL-UNNAMED \
+--add-exports=javafx.graphics/com.sun.glass.utils=ALL-UNNAMED \
+--add-exports=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED -jar CheckMyDigitalFootprint.jar
+```
+
+Ensure that you have replaced the correct jar name and `<PATH-TO-JAVAFX-SDK-LIB-FOLDER>` with your own file path to the JavaFX 11 SDK. It should look something like this: `/users/my_name/downloads/javafx-sdk-11.0.1/lib`.
+
+### Setup for Gradle
 
 Then in `settings.gradle`, set the Java home field to your Java 11 JDK directory:
 
@@ -64,12 +84,12 @@ Then right click project folder again and click on `Configure > Add Gradle Natur
 One last step before you run the application: goto `Run > Run Configurations > Arguments` and under `VM Arguments` paste in the following ensuring that you copy in your own JavaFX11 SDK jar path:
 
 ```
---module-path="<PATH TO JAVAFX SDK 111>/javafx-sdk-11.0.1/lib"
---add-modules=javafx.controls
---add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED
---add-exports=javafx.base/com.sun.javafx.reflect=ALL-UNNAMED
---add-exports=javafx.base/com.sun.javafx.beans=ALL-UNNAMED
---add-exports=javafx.graphics/com.sun.glass.utils=ALL-UNNAMED
+--module-path="/users/joseph/eclipse-workspace/javafx-sdk-11.0.1/lib" \
+--add-modules=javafx.controls \
+--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED \
+--add-exports=javafx.base/com.sun.javafx.reflect=ALL-UNNAMED \
+--add-exports=javafx.base/com.sun.javafx.beans=ALL-UNNAMED \
+--add-exports=javafx.graphics/com.sun.glass.utils=ALL-UNNAMED \
 --add-exports=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED
 ```
 
