@@ -78,9 +78,6 @@ public class MainApp extends Application {
 		System.out.println("Starting..");
 		initRootLayout();
 		showListServerOverview();	
-		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		prefs.remove("credentialsFilePath");
-		prefs.remove("listServerFilePath");
 	}
 	
 	/**
